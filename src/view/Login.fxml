@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.*?>
+<AnchorPane maxHeight="600.0" maxWidth="650.0" minHeight="600.0" minWidth="650.0" prefHeight="600.0" prefWidth="650.0"
+            style="-fx-background-color: #F4F9E9;" xmlns="http://javafx.com/javafx/8.0.171"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.LoginController">
+   <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="53.0" prefWidth="650.0" text="Login"
+          AnchorPane.topAnchor="20.0">
+      <font>
+         <Font size="36.0"/>
+      </font>
+   </Label>
+   <Label fx:id="userLabel" layoutX="111.0" layoutY="171.0" text="Username">
+      <font>
+         <Font size="18.0"/>
+      </font>
+   </Label>
+   <Label fx:id="passLabel" layoutX="435.0" layoutY="171.0" text="Password">
+      <font>
+         <Font size="18.0"/>
+      </font>
+   </Label>
+   <TextField fx:id="userText" layoutX="63.0" layoutY="222.0">
+      <font>
+         <Font size="14.0"/>
+      </font>
+   </TextField>
+   <PasswordField fx:id="passText" layoutX="385.0" layoutY="222.0">
+      <font>
+         <Font size="14.0"/>
+      </font>
+   </PasswordField>
+   <Button fx:id="loginButton" layoutX="299.0" layoutY="347.0" mnemonicParsing="false" onAction="#handleLogin"
+           text="Login">
+      <font>
+         <Font name="Berlin Sans FB" size="14.0"/>
+      </font>
+   </Button>
+   <Label fx:id="messageLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="64.0" layoutY="411.0"
+          prefHeight="107.0" prefWidth="522.0">
+      <font>
+         <Font size="24.0"/>
+      </font>
+   </Label>
+</AnchorPane>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<BorderPane fx:id="bp" maxHeight="600.0" maxWidth="800.0" minHeight="600.0" minWidth="800.0" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #F4F9E9;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.MainController">
+   <left>
+      <VBox maxHeight="600.0" maxWidth="150.0" minHeight="600.0" minWidth="150.0" prefHeight="600.0" prefWidth="150.0"
+            style="-fx-background-color: #6BA292;" BorderPane.alignment="CENTER">
+         <Button fx:id="navBtnAppt" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#navAppt"
+                 prefHeight="52.0" prefWidth="150.0"
+                 style="-fx-background-color: transparent; -fx-border-color: tan; -fx-border-width: 0px 0px 1px 0px;"
+                 text="Appointments">
+            <font>
+               <Font name="Berlin Sans FB" size="18.0"/>
+            </font>
+         </Button>
+         <Button fx:id="navBtnCustomer" layoutX="10.0" layoutY="62.0" mnemonicParsing="false"
+                 onMouseClicked="#navCustomer" prefHeight="52.0" prefWidth="150.0"
+                 style="-fx-background-color: transparent; -fx-border-color: tan; -fx-border-width: 0px 0px 1px 0px;"
+                 text="Customers">
+            <font>
+               <Font name="Berlin Sans FB" size="18.0"/>
+            </font>
+         </Button>
+         <Button fx:id="navBtnReport" layoutX="10.0" layoutY="114.0" mnemonicParsing="false" onMouseClicked="#navReport"
+                 prefHeight="52.0" prefWidth="150.0"
+                 style="-fx-background-color: transparent; -fx-border-color: tan; -fx-border-width: 0px 0px 1px 0px;"
+                 text="Reports">
+            <font>
+               <Font name="Berlin Sans FB" size="18.0"/>
+            </font>
+         </Button>
+         <Button fx:id="navBtnLog" layoutX="10.0" layoutY="166.0" mnemonicParsing="false" onAction="#navLog"
+                 prefHeight="52.0" prefWidth="150.0"
+                 style="-fx-background-color: transparent; -fx-border-color: tan; -fx-border-width: 0px 0px 1px 0px;"
+                 text="Log">
+            <font>
+               <Font name="Berlin Sans FB" size="18.0"/>
+            </font>
+         </Button>
+         <Button fx:id="navBtnExit" layoutX="10.0" layoutY="166.0" mnemonicParsing="false" onAction="#navExit"
+                 prefHeight="52.0" prefWidth="150.0"
+                 style="-fx-background-color: transparent; -fx-border-color: tan; -fx-border-width: 0px 0px 1px 0px;"
+                 text="Exit">
+            <font>
+               <Font name="Berlin Sans FB" size="18.0"/>
+            </font>
+         </Button>
+      </VBox>
+   </left>
+   <center>
+      <AnchorPane maxHeight="600.0" maxWidth="650.0" minHeight="600.0" minWidth="650.0" prefHeight="600.0" prefWidth="650.0" style="-fx-background-color: #F4F9E9;" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin></AnchorPane>
+   </center>
+</BorderPane>

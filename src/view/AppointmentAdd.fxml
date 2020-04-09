@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<AnchorPane maxHeight="600.0" maxWidth="650.0" minHeight="600.0" minWidth="650.0" prefHeight="600.0" prefWidth="650.0"
+            style="-fx-background-color: #F4F9E9;" xmlns="http://javafx.com/javafx/8.0.171"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.AppointmentAddController">
+    <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="53.0" maxWidth="650.0" minHeight="53.0"
+           minWidth="650.0" prefHeight="53.0" prefWidth="650.0" text="Add Appointment" AnchorPane.topAnchor="20.0">
+        <font>
+            <Font size="36.0"/>
+        </font>
+    </Label>
+    <VBox layoutX="117.0" layoutY="119.0" prefHeight="419.0" prefWidth="200.0" spacing="40.0">
+        <ComboBox fx:id="customer" prefHeight="25.0" prefWidth="205.0">
+            <VBox.margin>
+                <Insets top="20.0"/>
+            </VBox.margin>
+        </ComboBox>
+        <TextField fx:id="title" prefHeight="25.0" prefWidth="200.0"/>
+        <ComboBox fx:id="contact" prefHeight="25.0" prefWidth="207.0"/>
+        <TextArea fx:id="description" prefHeight="77.0" prefWidth="200.0"/>
+        <ComboBox fx:id="location" prefHeight="25.0" prefWidth="200.0"/>
+        <ComboBox fx:id="type" prefHeight="25.0" prefWidth="200.0">
+            <VBox.margin>
+                <Insets bottom="10.0"/>
+            </VBox.margin>
+        </ComboBox>
+    </VBox>
+    <VBox layoutX="434.0" layoutY="119.0" prefHeight="214.0" prefWidth="181.0" spacing="40.0">
+        <DatePicker fx:id="date" prefHeight="25.0" prefWidth="200.0">
+            <VBox.margin>
+                <Insets top="20.0"/>
+            </VBox.margin>
+        </DatePicker>
+        <Spinner fx:id="start" prefHeight="25.0" prefWidth="200.0"/>
+        <Spinner fx:id="end" prefHeight="25.0" prefWidth="200.0"/>
+    </VBox>
+    <Button fx:id="appAddBtnSave" layoutX="453.0" layoutY="530.0" mnemonicParsing="false" onAction="#handleAppAdd"
+            text="Save"/>
+    <Button fx:id="appAddBtnCancel" layoutX="563.0" layoutY="530.0" mnemonicParsing="false" onAction="#handleAppCancel"
+            text="Cancel"/>
+    <Label layoutX="393.0" layoutY="143.0" text="Date:">
+        <font>
+          <Font size="14.0"/>
+        </font>
+    </Label>
+    <Label layoutX="360.0" layoutY="206.0" text="Start Time:">
+        <font>
+          <Font size="14.0"/>
+        </font>
+    </Label>
+    <Label layoutX="363.0" layoutY="273.0" text="End Time:">
+        <font>
+          <Font size="14.0"/>
+        </font>
+    </Label>
+    <Label layoutX="45.0" layoutY="143.0" text="Customer:">
+        <font>
+          <Font size="14.0"/>
+        </font>
+    </Label>
+    <Label layoutX="77.0" layoutY="206.0" text="Title:">
+        <font>
+          <Font size="14.0"/>
+        </font>
+    </Label>
+    <Label layoutX="53.0" layoutY="273.0" text="Contact: ">
+        <font>
+          <Font size="14.0"/>
+        </font>
+    </Label>
+    <Label layoutX="33.0" layoutY="333.0" text="Description:">
+        <font>
+          <Font size="14.0"/>
+        </font>
+    </Label>
+    <Label layoutX="53.0" layoutY="442.0" text="Location:">
+        <font>
+          <Font size="14.0"/>
+        </font>
+    </Label>
+    <Label layoutX="76.0" layoutY="503.0" text="Type:">
+        <font>
+          <Font size="14.0"/>
+        </font>
+    </Label>
+</AnchorPane>

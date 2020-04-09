@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<AnchorPane maxHeight="600.0" maxWidth="650.0" minHeight="600.0" minWidth="650.0" prefHeight="600.0" prefWidth="650.0"
+            style="-fx-background-color: #F4F9E9;" xmlns="http://javafx.com/javafx/8.0.171"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.AppointmentController">
+    <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="53.0" maxWidth="650.0" minHeight="53.0"
+           minWidth="650.0" prefHeight="53.0" prefWidth="650.0" text="Appointments" AnchorPane.topAnchor="20.0">
+        <font>
+          <Font size="36.0"/>
+        </font>
+    </Label>
+    <TabPane fx:id="tp" layoutX="51.0" layoutY="94.0" prefHeight="205.0" prefWidth="562.0"
+             tabClosingPolicy="UNAVAILABLE">
+        <Tab fx:id="tpWeekly" text="Weekly">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <TableView fx:id="appTableWeek" prefHeight="177.0" prefWidth="562.0">
+                    <columns>
+                        <TableColumn fx:id="appWeekTitle" prefWidth="114.0" text="Title"/>
+                        <TableColumn fx:id="appWeekContact" prefWidth="113.0" text="Contact"/>
+                        <TableColumn fx:id="appWeekLocation" prefWidth="123.0" text="Location"/>
+                        <TableColumn fx:id="appWeekStart" prefWidth="99.0" text="Start"/>
+                        <TableColumn fx:id="appWeekEnd" prefWidth="112.0" text="End"/>
+                    </columns>
+                </TableView>
+            </AnchorPane>
+        </Tab>
+        <Tab fx:id="tpMonthly" text="Monthly">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <TableView fx:id="appTableMonth" prefHeight="177.0" prefWidth="562.0">
+                    <columns>
+                        <TableColumn fx:id="appMonthTitle" prefWidth="114.0" text="Title"/>
+                        <TableColumn fx:id="appMonthContact" prefWidth="113.0" text="Contact"/>
+                        <TableColumn fx:id="appMonthLocation" prefWidth="123.0" text="Location"/>
+                        <TableColumn fx:id="appMonthStart" prefWidth="99.0" text="Start"/>
+                        <TableColumn fx:id="appMonthEnd" prefWidth="112.0" text="End"/>
+                    </columns>
+                </TableView>
+            </AnchorPane>
+        </Tab>
+    </TabPane>
+    <TableView fx:id="appTableCustomer" layoutX="51.0" layoutY="318.0" prefHeight="170.0" prefWidth="562.0">
+      <columns>
+          <TableColumn fx:id="appCID" prefWidth="75.0" text="ID"/>
+          <TableColumn fx:id="appName" prefWidth="216.0" text="Name"/>
+          <TableColumn fx:id="appPhone" prefWidth="172.0" text="Phone"/>
+      </columns>
+    </TableView>
+    <Button fx:id="appBtnAdd" layoutX="74.0" layoutY="518.0" mnemonicParsing="false" onAction="#handleAppAdd" text="Add"
+            AnchorPane.leftAnchor="75.0"/>
+    <Button fx:id="appBtnMod" layoutX="299.0" layoutY="518.0" mnemonicParsing="false" onAction="#handleAppMod"
+            text="Update"/>
+    <Button fx:id="appBtnDelete" layoutX="501.0" layoutY="518.0" mnemonicParsing="false" onAction="#handleAppDel"
+            text="Delete" AnchorPane.rightAnchor="75.0"/>
+</AnchorPane>
