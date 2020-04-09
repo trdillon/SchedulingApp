@@ -1,6 +1,7 @@
 package model;
 
 import exception.AppointmentException;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -11,16 +12,16 @@ import java.time.format.DateTimeFormatter;
 
 public class Appointment {
 
-    private SimpleIntegerProperty appID = new SimpleIntegerProperty();
-    private SimpleIntegerProperty appCustID = new SimpleIntegerProperty();
-    private SimpleIntegerProperty appUserID = new SimpleIntegerProperty();
-    private SimpleStringProperty appTitle = new SimpleStringProperty();
-    private SimpleStringProperty appDesc = new SimpleStringProperty();
-    private SimpleStringProperty appStart = new SimpleStringProperty();
-    private SimpleStringProperty appEnd = new SimpleStringProperty();
-    private SimpleStringProperty appLocation = new SimpleStringProperty();
-    private SimpleStringProperty appContact = new SimpleStringProperty();
-    private SimpleStringProperty appType = new SimpleStringProperty();
+    private IntegerProperty appointmentId = new SimpleIntegerProperty();
+    private IntegerProperty customerId = new SimpleIntegerProperty();
+    private IntegerProperty userId = new SimpleIntegerProperty();
+    private StringProperty appTitle = new SimpleStringProperty();
+    private StringProperty appDesc = new SimpleStringProperty();
+    private StringProperty appStart = new SimpleStringProperty();
+    private StringProperty appEnd = new SimpleStringProperty();
+    private StringProperty appLocation = new SimpleStringProperty();
+    private StringProperty appContact = new SimpleStringProperty();
+    private StringProperty appType = new SimpleStringProperty();
     private ZonedDateTime start;
     private ZonedDateTime end;
     private Customer customer = new Customer();
@@ -28,10 +29,11 @@ public class Appointment {
     //Constructors
     public Appointment() {}
 
-    public Appointment(int id, int custID, String title, String desc, String start, String end,
+    public Appointment(int id, int customerId, int userId, String title, String desc, String start, String end,
                        String location, String contact) {
-        setAppID(id);
-        setAppCustID(custID);
+        setAppointmentId(id);
+        setCustomerId(customerId);
+        setUserId(userId);
         setAppTitle(title);
         setAppDesc(desc);
         setAppStart(start);
@@ -41,35 +43,47 @@ public class Appointment {
     }
 
     //Getters and Setters
-    public int getAppID() {
-        return appID.get();
+    public final int getAppointmentId() {
+        return appointmentId.get();
     }
 
-    public void setAppID(int appID) {
-        this.appID.set(appID);
+    public final void setAppointmentId(int appointmentId) {
+        this.appointmentId.set(appointmentId);
     }
 
-    public int getAppCustID() {
-        return appCustID.get();
+    public IntegerProperty appointmentIdProperty() {
+        return appointmentId;
     }
 
-    public void setAppCustID(int appCustID) {
-        this.appCustID.set(appCustID);
+    public final int getCustomerId() {
+        return customerId.get();
     }
 
-    public int getAppUserID() {
-        return appUserID.get();
+    public final void setCustomerId(int customerId) {
+        this.customerId.set(customerId);
     }
 
-    public void setAppUserID(int appUserID) {
-        this.appUserID.set(appUserID);
+    public IntegerProperty customerIdProperty() {
+        return customerId;
+    }
+
+    public final int getUserId() {
+        return userId.get();
+    }
+
+    public final void setUserId(int userId) {
+        this.userId.set(userId);
+    }
+
+    public IntegerProperty userIdProperty() {
+        return userId;
     }
 
     public String getAppTitle() {
         return appTitle.get();
     }
 
-    public SimpleStringProperty getAppTitleProperty() {
+    public StringProperty getAppTitleProperty() {
         return this.appTitle;
     }
 
@@ -81,7 +95,7 @@ public class Appointment {
         return appDesc.get();
     }
 
-    public SimpleStringProperty getAppDescProperty() {
+    public StringProperty getAppDescProperty() {
         return this.appDesc;
     }
 
@@ -109,7 +123,7 @@ public class Appointment {
         return appLocation.get();
     }
 
-    public SimpleStringProperty getAppLocationProperty() {
+    public StringProperty getAppLocationProperty() {
         return this.appLocation;
     }
 
@@ -121,7 +135,7 @@ public class Appointment {
         return appContact.get();
     }
 
-    public SimpleStringProperty getAppContactProperty() {
+    public StringProperty getAppContactProperty() {
         return this.appContact;
     }
 
@@ -133,7 +147,7 @@ public class Appointment {
         return appType.get();
     }
 
-    public SimpleStringProperty getAppTypeProperty() {
+    public StringProperty getAppTypeProperty() {
         return this.appType;
     }
 
@@ -165,6 +179,7 @@ public class Appointment {
         this.customer = customer;
     }
 
+    //TODO - do I need these methods any more?
     //Convert UTC to LDT
     public StringProperty getAppStartProperty() {
         DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
@@ -186,7 +201,7 @@ public class Appointment {
 
     //Validate appointment data
     public boolean isValidApp() throws AppointmentException {
-        if(this.appCustID == null) {
+        if(this.customerId == null) {
             throw new AppointmentException("There was no customer selected.");
         }
         if(this.appTitle.get().equals("")) {

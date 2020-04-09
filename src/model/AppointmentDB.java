@@ -32,9 +32,9 @@ public class AppointmentDB {
                 Appointment currApps = new Appointment();
 
                 currApps.setCustomer(currCustomer);
-                currApps.setAppID(rs.getInt("appointmentId"));
-                currApps.setAppCustID(rs.getInt("customerId"));
-                currApps.setAppUserID(rs.getInt("userId"));
+                currApps.setAppointmentId(rs.getInt("appointmentId"));
+                currApps.setCustomerId(rs.getInt("customerId"));
+                currApps.setUserId(rs.getInt("userId"));
                 currApps.setAppTitle(rs.getString("title"));
                 currApps.setAppDesc(rs.getString("description"));
                 currApps.setAppLocation(rs.getString("location"));
@@ -75,9 +75,9 @@ public class AppointmentDB {
                 Appointment currApps = new Appointment();
 
                 currApps.setCustomer(currCustomer);
-                currApps.setAppID(rs.getInt("appointmentId"));
-                currApps.setAppCustID(rs.getInt("customerId"));
-                currApps.setAppUserID(rs.getInt("userId"));
+                currApps.setAppointmentId(rs.getInt("appointmentId"));
+                currApps.setCustomerId(rs.getInt("customerId"));
+                currApps.setUserId(rs.getInt("userId"));
                 currApps.setAppTitle(rs.getString("title"));
                 currApps.setAppDesc(rs.getString("description"));
                 currApps.setAppLocation(rs.getString("location"));
@@ -118,8 +118,8 @@ public class AppointmentDB {
                 currCustomer.setCustomerID(rs.getInt("customerId"));
                 currCustomer.setCustomerName(rs.getString("customerName"));
                 currApp.setCustomer(currCustomer);
-                currApp.setAppCustID(rs.getInt("customerId"));
-                currApp.setAppUserID(rs.getInt("userId"));
+                currApp.setCustomerId(rs.getInt("customerId"));
+                currApp.setUserId(rs.getInt("userId"));
                 currApp.setAppTitle(rs.getString("title"));
                 currApp.setAppDesc(rs.getString("description"));
                 currApp.setAppLocation(rs.getString("location"));
@@ -156,8 +156,8 @@ public class AppointmentDB {
 
             while(rs.next()) {
                 Appointment currApps = new Appointment();
-                currApps.setAppUserID(rs.getInt("userId"));
-                currApps.setAppCustID(rs.getInt("customerId"));
+                currApps.setUserId(rs.getInt("userId"));
+                currApps.setCustomerId(rs.getInt("customerId"));
 
                 LocalDateTime startUTC = rs.getTimestamp("start").toLocalDateTime();
                 ZonedDateTime startLocal = ZonedDateTime.ofInstant(startUTC.toInstant(ZoneOffset.UTC), zid);
@@ -193,9 +193,9 @@ public class AppointmentDB {
                 Customer currCustomer = new Customer();
                 currCustomer.setCustomerName(rs.getString("customerName"));
                 currApp.setCustomer(currCustomer);
-                currApp.setAppID(rs.getInt("appointmentId"));
-                currApp.setAppCustID(rs.getInt("customerId"));
-                currApp.setAppUserID(rs.getInt("userId"));
+                currApp.setAppointmentId(rs.getInt("appointmentId"));
+                currApp.setCustomerId(rs.getInt("customerId"));
+                currApp.setUserId(rs.getInt("userId"));
                 currApp.setAppTitle(rs.getString("title"));
 
                 LocalDateTime startUTC = rs.getTimestamp("start").toLocalDateTime();
@@ -235,7 +235,7 @@ public class AppointmentDB {
 
             while(rs.next()) {
                 Appointment currApp = new Appointment();
-                currApp.setAppID(rs.getInt("appointmentId"));
+                currApp.setAppointmentId(rs.getInt("appointmentId"));
                 currApp.setAppTitle(rs.getString("title"));
                 currApp.setAppDesc(rs.getString("description"));
                 currApp.setAppLocation(rs.getString("location"));
@@ -281,21 +281,20 @@ public class AppointmentDB {
         return (lastAppID + 1);
     }
 
-    //TODO - do I need to return an Appointment obj or can this return void?
     //Add an appointment
     public static Appointment addAppointment(Appointment appointment) {
         String addApp = String.join(" ",
                 "INSERT INTO appointment (appointmentId, customerId, userId, title, "
-                + "description, location, contact, type, start, end, "
+                + "description, location, contact, type, url, start, end, "
                 + "createDate, createdBy, lastUpdate, lastUpdateBy) ",
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), ?, NOW(), ?)");
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ' ', ?, ?, NOW(), ?, NOW(), ?)");
 
         int appointmentId = getLastAppID();
         try {
             PreparedStatement stmt = DBConnection.getConn().prepareStatement(addApp);
             stmt.setInt(1, appointmentId);
-            stmt.setObject(2, appointment.getAppCustID());
-            stmt.setObject(3, appointment.getAppUserID());
+            stmt.setObject(2, appointment.getCustomerId());
+            stmt.setObject(3, appointment.getUserId());
             stmt.setObject(4, appointment.getAppTitle());
             stmt.setObject(5, appointment.getAppDesc());
             stmt.setObject(6, appointment.getAppLocation());
@@ -330,8 +329,8 @@ public class AppointmentDB {
 
         try {
             PreparedStatement stmt = DBConnection.getConn().prepareStatement(modApp);
-            stmt.setObject(1, appointment.getAppCustID());
-            stmt.setObject(2, appointment.getAppUserID());
+            stmt.setObject(1, appointment.getCustomerId());
+            stmt.setObject(2, appointment.getUserId());
             stmt.setObject(3, appointment.getAppTitle());
             stmt.setObject(4, appointment.getAppDesc());
             stmt.setObject(5, appointment.getAppLocation());
@@ -344,7 +343,7 @@ public class AppointmentDB {
             stmt.setTimestamp(9, Timestamp.valueOf(endZDT.toLocalDateTime()));
 
             stmt.setString(10, activeUser.getUserName());
-            stmt.setObject(12, appointment.getAppID());
+            stmt.setObject(12, appointment.getAppointmentId());
 
             stmt.executeUpdate();
         }
@@ -361,7 +360,7 @@ public class AppointmentDB {
 
         try {
             PreparedStatement stmt = DBConnection.getConn().prepareStatement(delApp);
-            stmt.setObject(1, appointment.getAppID());
+            stmt.setObject(1, appointment.getAppointmentId());
             stmt.executeUpdate();
         }
         catch (SQLException e) {

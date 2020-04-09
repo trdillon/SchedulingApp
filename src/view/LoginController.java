@@ -1,5 +1,6 @@
 package view;
 
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,11 +10,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import model.Appointment;
+import model.AppointmentDB;
 import model.User;
 import model.UserDB;
+import util.Logger;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -44,33 +50,71 @@ public class LoginController implements Initializable {
     private String errorTitle;
     private String errorText;
 
+    //Create an active user object
+    public static User activeUser = new User();
+
     //Handle the login
     @FXML
-    public void handleLogin(ActionEvent eventLogin) throws IOException {
+    public void handleLogin(ActionEvent eventLogin) {
         String username = userText.getText();
         String password = passText.getText();
         activeUser.setUserName(username);
-        boolean isValidUser = UserDB.login(username, password);
+        activeUser.setPassword(password);
 
-        if(isValidUser){
-            ((Node) (eventLogin.getSource())).getScene().getWindow().hide();
-            Stage stage = new Stage();
-            Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+        //Create a list of all users then use a lambda expression to iterate thru it to find the active user
+        try {
+            ObservableList<User> userData = UserDB.getUsers();
+            userData.forEach((user) -> {
+                try {
+                    assert activeUser.getUserName().equals(user.getUserName()) &&
+                        activeUser.getPassword().equals(user.getPassword()) : "Login information is invalid.";
+                    activeUser.setUserId(user.getUserId());
+                    try {
+                        Appointment app15 = AppointmentDB.getApp15();
+                        if(!(app15.getAppointmentId() == 0)) {
+                            Alert appAlert = new Alert (Alert.AlertType.INFORMATION);
+                            appAlert.setTitle("Appointment Reminder");
+                            appAlert.setHeaderText("Upcoming appointment soon.");
+                            appAlert.setContentText("There is an upcoming appointment:"
+                                    + "\non " + app15.getStart().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL))
+                                    + "\nat " + app15.getStart().format(DateTimeFormatter.ofLocalizedTime(FormatStyle.FULL))
+                                    + "\nwith " + app15.getCustomer().getCustomerName() + ".");
+                            appAlert.showAndWait();
+                            Logger.log(username, true);
+                            ((Node) (eventLogin.getSource())).getScene().getWindow().hide();
+                            Stage stage = new Stage();
+                            Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
+                            Scene scene = new Scene(root);
+                            stage.setScene(scene);
+                            stage.show();
+                        }
+                        else {
+                            Logger.log(username, true);
+                            ((Node) (eventLogin.getSource())).getScene().getWindow().hide();
+                            Stage stage = new Stage();
+                            Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
+                            Scene scene = new Scene(root);
+                            stage.setScene(scene);
+                            stage.show();
+                        }
+                    }
+                    catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                catch (AssertionError e) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle(errorTitle);
+                    alert.setHeaderText(errorHeader);
+                    alert.setContentText(errorText);
+                    alert.showAndWait();
+                }
+            });
         }
-        else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle(errorTitle);
-            alert.setHeaderText(errorHeader);
-            alert.setContentText(errorText);
-            alert.showAndWait();
+        catch (Exception e) {
+            e.printStackTrace();
         }
     }
-
-    //Create an active user object
-    public static User activeUser = new User();
 
     //Get language data for localization
     @Override

@@ -225,12 +225,6 @@ public class AppointmentController implements Initializable {
         }
     }
 
-    /* TODO - is this method needed for selecting customer -> appointment pairs on the appoinment screen?
-    @FXML
-    void handleCustClick(MouseEvent event) {
-
-    }
-*/
     public void getAppointments() {
         //Populate the customer table
         appCID.setCellValueFactory(new PropertyValueFactory<>("customerID"));

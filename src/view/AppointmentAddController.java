@@ -135,8 +135,8 @@ public class AppointmentAddController implements Initializable {
     public void getAppInfo() {
         try {
             app.setCustomer(customer.getValue());
-            app.setAppCustID(customer.getValue().getCustomerID());
-            app.setAppUserID(activeUser.getUserId());
+            app.setCustomerId(customer.getValue().getCustomerID());
+            app.setUserId(activeUser.getUserId());
             app.setAppTitle(title.getText());
             app.setAppContact(contact.getValue());
             app.setAppDesc(description.getText());
@@ -227,5 +227,4 @@ public class AppointmentAddController implements Initializable {
         location.setItems(locations);
         setTime();
     }
-    //TODO - fix URL no default error
 }

@@ -1,18 +1,20 @@
 package model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import util.DBConnection;
-import util.Logger;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class UserDB {
 
     /* TODO - use local var or this? line 24 - remove User declaration if not using local
     private static User activeUser;
 */
-    public UserDB(){}
+    public UserDB() {}
+/* TODO - Figure out if I need this login method or use a different one.
 
     //Login the User
     public static boolean login(String username, String password) {
@@ -41,11 +43,53 @@ public class UserDB {
             return false;
         }
     }
+*/
+    //Return the list of users
+    public static ObservableList<User> getUsers() {
+        ObservableList<User> users = FXCollections.observableArrayList();
+        String getUsers = "SELECT * FROM user";
 
-    /* TODO - Remove or use
-    //Return the current user
-    public static User getActiveUser() {
-        return activeUser;
+        try {
+            PreparedStatement stmt = DBConnection.getConn().prepareStatement(getUsers);
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()) {
+                User activeUser = new User();
+                activeUser.setUserId(rs.getInt("userId"));
+                activeUser.setUserName(rs.getString("userName"));
+                activeUser.setPassword(rs.getString("password"));
+
+                users.add(activeUser);
+            }
+        }
+        catch (SQLException e) {
+            System.out.println("SQL Exception: " + e.getMessage());
+            System.out.println("SQL State: " + e.getSQLState());
+            System.out.println("Vendor Error: " + e.getErrorCode());
+        }
+        return users;
     }
-     */
+
+    //Return a user by ID
+    public static User getUser(int userId) {
+        String getUser = "SELECT * FROM user WHERE userId = ?";
+        User user = new User();
+
+        try {
+            PreparedStatement stmt = DBConnection.getConn().prepareStatement(getUser);
+            stmt.setInt(1, userId);
+            ResultSet rs = stmt.executeQuery();
+
+            if(rs.next()) {
+                user.setUserId(rs.getInt("userId"));
+                user.setUserName(rs.getString("userName"));
+            }
+        }
+        catch (SQLException e) {
+            System.out.println("SQL Exception: " + e.getMessage());
+            System.out.println("SQL State: " + e.getSQLState());
+            System.out.println("Vendor Error: " + e.getErrorCode());
+        }
+        return user;
+    }
 }
