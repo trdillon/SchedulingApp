@@ -10,7 +10,8 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
-import static view.LoginController.activeUser;
+import static model.UserDB.activeUser;
+
 
 public class AppointmentDB {
 
@@ -115,7 +116,7 @@ public class AppointmentDB {
 
             if (rs.next()) {
                 Customer currCustomer = new Customer();
-                currCustomer.setCustomerID(rs.getInt("customerId"));
+                currCustomer.setCustomerId(rs.getInt("customerId"));
                 currCustomer.setCustomerName(rs.getString("customerName"));
                 currApp.setCustomer(currCustomer);
                 currApp.setCustomerId(rs.getInt("customerId"));
@@ -343,7 +344,7 @@ public class AppointmentDB {
             stmt.setTimestamp(9, Timestamp.valueOf(endZDT.toLocalDateTime()));
 
             stmt.setString(10, activeUser.getUserName());
-            stmt.setObject(12, appointment.getAppointmentId());
+            stmt.setObject(11, appointment.getAppointmentId());
 
             stmt.executeUpdate();
         }

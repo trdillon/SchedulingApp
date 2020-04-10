@@ -8,12 +8,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.Appointment;
 import model.AppointmentDB;
-import model.Customer;
-import model.CustomerDB;
 
 import java.io.IOException;
 import java.net.URL;
@@ -56,6 +53,9 @@ public class AppointmentController implements Initializable {
     private TableColumn<Appointment, String> appWeekEnd;
 
     @FXML
+    private TableColumn<Appointment, String> appWeekCustomer;
+
+    @FXML
     private Tab tpMonthly;
 
     @FXML
@@ -77,23 +77,12 @@ public class AppointmentController implements Initializable {
     private TableColumn<Appointment, String> appMonthEnd;
 
     @FXML
-    private TableView<Customer> appTableCustomer;
-
-    @FXML
-    private TableColumn<Customer, Integer> appCID;
-
-    @FXML
-    private TableColumn<Customer, String> appName;
-
-    @FXML
-    private TableColumn<Customer, String> appPhone;
+    private TableColumn<Appointment, String> appMonthCustomer;
 
     @FXML
     private final DateTimeFormatter formatDT = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a z");
 
-    private Customer currCustomer;
     public static Appointment currAppointment;
-    private boolean isMonthly;
 
     //Handle buttons
     @FXML
@@ -226,16 +215,11 @@ public class AppointmentController implements Initializable {
     }
 
     public void getAppointments() {
-        //Populate the customer table
-        appCID.setCellValueFactory(new PropertyValueFactory<>("customerID"));
-        appName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
-        appPhone.setCellValueFactory(new PropertyValueFactory<>("customerPhone"));
-        appTableCustomer.setItems(CustomerDB.getAllCustomers());
-
         //Set the weekly & monthly tables using lambda expressions for efficiency
         appWeekTitle.setCellValueFactory(cellData -> cellData.getValue().getAppTitleProperty());
         appWeekContact.setCellValueFactory(cellData -> cellData.getValue().getAppContactProperty());
         appWeekLocation.setCellValueFactory(cellData -> cellData.getValue().getAppLocationProperty());
+        appWeekCustomer.setCellValueFactory(cellData -> cellData.getValue().getCustomer().getCustomerNameProperty());
         appWeekStart.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getStart().format(formatDT)));
 
@@ -245,6 +229,7 @@ public class AppointmentController implements Initializable {
         appMonthTitle.setCellValueFactory(cellData -> cellData.getValue().getAppTitleProperty());
         appMonthContact.setCellValueFactory(cellData -> cellData.getValue().getAppContactProperty());
         appMonthLocation.setCellValueFactory(cellData -> cellData.getValue().getAppLocationProperty());
+        appMonthCustomer.setCellValueFactory(cellData -> cellData.getValue().getCustomer().getCustomerNameProperty());
         appMonthStart.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getStart().format(formatDT)));
 

@@ -4,9 +4,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import util.DBConnection;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import static model.UserDB.activeUser;
 
 public class CustomerDB {
 
@@ -15,24 +18,22 @@ public class CustomerDB {
     //Return a list of all customers
     public static  ObservableList<Customer> getAllCustomers() {
         allCustomers.clear();
+        String getCusts = "SELECT * FROM customer";
+
         try {
-            Statement stmt = DBConnection.getConn().createStatement();
-            String qry = "SELECT customer.customerId, customer.customerName, address.address, address.postalCode, address.phone, city.city"
-                    + " FROM customer INNER JOIN address ON customer.addressId = address.addressId"
-                    + " INNER JOIN city ON address.cityId = city.cityId";
-            ResultSet rs = stmt.executeQuery(qry);
+            PreparedStatement stmt = DBConnection.getConn().prepareStatement(getCusts);
+            ResultSet rs = stmt.executeQuery();
 
             while(rs.next()) {
-                Customer currCustomer = new Customer(
-                rs.getInt("customerId"),
-                rs.getString("customerName"),
-                rs.getString("address"),
-                rs.getString("city"),
-                rs.getString("postalCode"),
-                rs.getString("phone"));
+                Customer currCustomer = new Customer();
+                currCustomer.setCustomerId(rs.getInt("customerId"));
+                currCustomer.setCustomerName(rs.getString("customerName"));
+                currCustomer.setCustomerAddress(rs.getString("address"));
+                currCustomer.setCustomerCity(rs.getString("city"));
+                currCustomer.setCustomerZip(rs.getString("postalCode"));
+                currCustomer.setCustomerPhone(rs.getString("phone"));
                 allCustomers.add(currCustomer);
             }
-            stmt.close();
             return allCustomers;
         }
         catch (SQLException e) {
@@ -65,22 +66,17 @@ public class CustomerDB {
         return null;
     }
 
-    //Add a customer
-    public static boolean addCustomer(String name, String address, int cityId, String zip, String phone) {
+    //Return the last customer ID
+    private static int getLastCustID() {
+        int lastID = 0;
+        String getID = "SELECT MAX(customerId) FROM customer";
+
         try {
             Statement stmt = DBConnection.getConn().createStatement();
-            String qryAdd = "INSERT INTO address SET address = '" + address + "', phone = '" + phone + "', " +
-                    "postalCode = '" + zip + "', cityId = '" + cityId;
-            int rsAdd = stmt.executeUpdate(qryAdd);
+            ResultSet rs = stmt.executeQuery(getID);
 
-            if(rsAdd == 1) {
-                int addressId = (allCustomers.size() + 1);
-                String qryCus = "INSERT INTO customer SET customerName = '" + name + "', addressId = " + addressId;
-                int rsCus = stmt.executeUpdate(qryCus);
-
-                if(rsCus == 1) {
-                    return true;
-                }
+            if(rs.next()) {
+                lastID = rs.getInt(1);
             }
         }
         catch (SQLException e) {
@@ -88,45 +84,65 @@ public class CustomerDB {
             System.out.println("SQL State: " + e.getSQLState());
             System.out.println("Vendor Error: " + e.getErrorCode());
         }
-        return false;
+        return (lastID + 1);
+    }
+
+    //Add a customer
+    public static Customer addCustomer(Customer customer) {
+        String addCust = String.join(" ",
+                "INSERT INTO customer (customerId, customerName, addressId, createDate, " +
+                        "createdBy, lastUpdate, lastUpdateBy)",
+                        "VALUES (?, ?, ?, NOW(), ?, NOW(), ?)");
+        int customerId = getLastCustID();
+
+        try {
+            PreparedStatement stmt = DBConnection.getConn().prepareStatement(addCust);
+            stmt.setInt(1, customerId);
+            stmt.setString(2, customer.getCustomerName());
+            stmt.setInt(3, customer.getCustomerAddressId());
+            stmt.setString(4, activeUser.getUserName());
+            stmt.setString(5, activeUser.getUserName());
+            stmt.executeUpdate();
+            }
+        catch (SQLException e) {
+            System.out.println("SQL Exception: " + e.getMessage());
+            System.out.println("SQL State: " + e.getSQLState());
+            System.out.println("Vendor Error: " + e.getErrorCode());
+        }
+        return customer;
     }
 
     //Update a customer
-    public static boolean updateCustomer(int id, String name, String address, int cityId, String zip, String phone) {
+    public static void updateCustomer(Customer customer) {
+        String modCust = String.join(" ",
+                "UPDATE customer",
+                "SET customerName = ?, addressId = ?, lastUpdate = NOW(), lastUpdateBy = ?",
+                "WHERE customerId = ?");
+
         try {
-            Statement stmt = DBConnection.getConn().createStatement();
-            String qryMod = "UPDATE address SET address = '" + address + "', phone = '" + phone + "', " +
-                    "postalCode = '" + zip + "', cityId = '" + cityId + "' " +
-                    "WHERE addressId = " + id;
-            int rsMod = stmt.executeUpdate(qryMod);
-
-            if (rsMod == 1) {
-                String qryCus = "UPDATE customer SET customerName = '" + name + "', addressId = " + id +
-                        " WHERE customerId = " + id;
-                int rsCus = stmt.executeUpdate(qryCus);
-
-                if (rsCus == 1) {
-                    return true;
-                }
-            }
+            PreparedStatement stmt = DBConnection.getConn().prepareStatement(modCust);
+            stmt.setString(1, customer.getCustomerName());
+            stmt.setInt(2, customer.getCustomerAddressId());
+            stmt.setString(3, activeUser.getUserName());
+            stmt.setInt(4, customer.getCustomerId());
+            stmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("SQL Exception: " + e.getMessage());
             System.out.println("SQL State: " + e.getSQLState());
             System.out.println("Vendor Error: " + e.getErrorCode());
         }
-        return false;
     }
 
     //Delete a customer
     public static boolean deleteCustomer(int id) {
         try {
             Statement stmt = DBConnection.getConn().createStatement();
-            String qryDel = "DELETE FROM address WHERE addressId = " + id;
-            int rsDel = stmt.executeUpdate(qryDel);
+            String delCustAdd = "DELETE FROM address WHERE addressId = " + id;
+            int rsDel = stmt.executeUpdate(delCustAdd);
 
             if(rsDel == 1) {
-                String qryCus = "DELETE FROM customer WHERE customerId = "+ id;
-                int rsCus = stmt.executeUpdate(qryCus);
+                String delCus = "DELETE FROM customer WHERE customerId = "+ id;
+                int rsCus = stmt.executeUpdate(delCus);
 
                 if(rsCus == 1) {
                     return true;

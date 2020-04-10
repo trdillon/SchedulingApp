@@ -1,38 +1,37 @@
 package model;
 
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.*;
 
 public class Customer {
 
-    private SimpleIntegerProperty customerID = new SimpleIntegerProperty();
-    private SimpleStringProperty customerName = new SimpleStringProperty();
-    private SimpleStringProperty customerAddress = new SimpleStringProperty();
-    private SimpleStringProperty customerCity = new SimpleStringProperty();
-    private SimpleStringProperty customerZip = new SimpleStringProperty();
-    private SimpleStringProperty customerPhone = new SimpleStringProperty();
-    private SimpleBooleanProperty isActive = new SimpleBooleanProperty();
+    private IntegerProperty customerId = new SimpleIntegerProperty();
+    private StringProperty customerName = new SimpleStringProperty();
+    private IntegerProperty customerAddressId = new SimpleIntegerProperty();
+    private StringProperty customerAddress = new SimpleStringProperty();
+    private StringProperty customerCity = new SimpleStringProperty();
+    private StringProperty customerZip = new SimpleStringProperty();
+    private StringProperty customerPhone = new SimpleStringProperty();
+    private BooleanProperty isActive = new SimpleBooleanProperty();
 
     //Constructors
     public Customer() {}
-
+/*
     public Customer(int id, String name, String address, String city, String zip, String phone) {
-        setCustomerID(id);
+        setCustomerId(id);
         setCustomerName(name);
         setCustomerAddress(address);
         setCustomerCity(city);
         setCustomerZip(zip);
         setCustomerPhone(phone);
     }
-
+*/
     //Getters and Setters
-    public int getCustomerID() {
-        return customerID.get();
+    public int getCustomerId() {
+        return customerId.get();
     }
 
-    public void setCustomerID(int customerID) {
-        this.customerID.set(customerID);
+    public void setCustomerId(int customerId) {
+        this.customerId.set(customerId);
     }
 
     public String getCustomerName() {
@@ -41,6 +40,18 @@ public class Customer {
 
     public void setCustomerName(String customerName) {
         this.customerName.set(customerName);
+    }
+
+    public StringProperty getCustomerNameProperty() {
+        return this.customerName;
+    }
+
+    public int getCustomerAddressId() {
+        return customerAddressId.get();
+    }
+
+    public void setCustomerAddressIdId(int customerAddressId) {
+        this.customerAddressId.set(customerAddressId);
     }
 
     public String getCustomerAddress() {

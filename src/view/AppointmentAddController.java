@@ -27,7 +27,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
-import static view.LoginController.activeUser;
+import static model.UserDB.activeUser;
 
 public class AppointmentAddController implements Initializable {
 
@@ -135,7 +135,7 @@ public class AppointmentAddController implements Initializable {
     public void getAppInfo() {
         try {
             app.setCustomer(customer.getValue());
-            app.setCustomerId(customer.getValue().getCustomerID());
+            app.setCustomerId(customer.getValue().getCustomerId());
             app.setUserId(activeUser.getUserId());
             app.setAppTitle(title.getText());
             app.setAppContact(contact.getValue());
@@ -171,7 +171,7 @@ public class AppointmentAddController implements Initializable {
         });
     }
 
-    //Set the default time
+    //Set the default time and SVF increments for the start/end fields
     public void setTime() {
         date.setValue(LocalDate.now());
         start.setValueFactory(valStart);
