@@ -11,43 +11,41 @@
         </font>
     </Label>
     <VBox layoutX="224.0" layoutY="120.0" prefHeight="420.0" prefWidth="263.0">
-        <children>
-            <TextField fx:id="customerName">
-                <VBox.margin>
-                    <Insets top="30.0" />
-                </VBox.margin>
-            </TextField>
-            <TextField fx:id="address">
-                <VBox.margin>
-                    <Insets top="30.0" />
-                </VBox.margin>
-            </TextField>
-            <TextField fx:id="address2">
-                <VBox.margin>
-                    <Insets top="30.0" />
-                </VBox.margin>
-            </TextField>
-            <TextField fx:id="city">
-                <VBox.margin>
-                    <Insets top="30.0" />
-                </VBox.margin>
-            </TextField>
-            <ComboBox fx:id="country" prefHeight="25.0" prefWidth="200.0">
-                <VBox.margin>
-                    <Insets top="30.0" />
-                </VBox.margin>
-            </ComboBox>
-            <TextField fx:id="postalCode">
-                <VBox.margin>
-                    <Insets top="30.0" />
-                </VBox.margin>
-            </TextField>
-            <TextField fx:id="phone">
-                <VBox.margin>
-                    <Insets top="30.0" />
-                </VBox.margin>
-            </TextField>
-        </children>
+        <TextField fx:id="customerName">
+            <VBox.margin>
+                <Insets top="30.0"/>
+            </VBox.margin>
+        </TextField>
+        <TextField fx:id="address">
+            <VBox.margin>
+                <Insets top="30.0"/>
+            </VBox.margin>
+        </TextField>
+        <TextField fx:id="address2">
+            <VBox.margin>
+                <Insets top="30.0"/>
+            </VBox.margin>
+        </TextField>
+        <TextField fx:id="city">
+            <VBox.margin>
+                <Insets top="30.0"/>
+            </VBox.margin>
+        </TextField>
+        <ComboBox fx:id="country" prefHeight="25.0" prefWidth="200.0">
+            <VBox.margin>
+                <Insets top="30.0"/>
+            </VBox.margin>
+        </ComboBox>
+        <TextField fx:id="postalCode">
+            <VBox.margin>
+                <Insets top="30.0"/>
+            </VBox.margin>
+        </TextField>
+        <TextField fx:id="phone">
+            <VBox.margin>
+                <Insets top="30.0"/>
+            </VBox.margin>
+        </TextField>
     </VBox>
     <Button fx:id="custModBtnCancel" layoutX="565.0" layoutY="530.0" mnemonicParsing="false" onAction="#handleCancel" text="Cancel" />
     <Button fx:id="custModBtnSave" layoutX="455.0" layoutY="530.0" mnemonicParsing="false" onAction="#handleUpdate" text="Save" />

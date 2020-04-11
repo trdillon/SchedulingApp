@@ -5,7 +5,6 @@ import dao.CustomerDB;
 import exception.AppointmentException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -74,7 +73,7 @@ public class AppointmentAddController implements Initializable {
     private final DateTimeFormatter formatTime = DateTimeFormatter.ofPattern("HH:mm");
 
     @FXML
-    private static ZoneId zid = ZoneId.systemDefault();
+    private static final ZoneId zid = ZoneId.systemDefault();
 
     private final ObservableList<Customer> customers = CustomerDB.getAllCustomers();
 
@@ -88,7 +87,7 @@ public class AppointmentAddController implements Initializable {
             "London");
 
     @FXML
-    void handleAdd(ActionEvent event) {
+    void handleAdd() {
         try {
             getAppData();
             app.isValidApp();

@@ -5,7 +5,6 @@ import dao.CityDB;
 import dao.CountryDB;
 import dao.CustomerDB;
 import exception.CustomerException;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -55,13 +54,13 @@ public class CustomerAddController implements Initializable {
     @FXML
     private Button custAddBtnSave;
 
-    private Customer currCustomer = new Customer();
-    private Address currAddress = new Address();
-    private City currCity = new City();
-    private Country currCountry = new Country();
+    private final Customer currCustomer = new Customer();
+    private final Address currAddress = new Address();
+    private final City currCity = new City();
+    private final Country currCountry = new Country();
 
     @FXML
-    void handleAdd(ActionEvent event) {
+    void handleAdd() {
         try {
             getCustData();
             if(Customer.isValidCust(currCustomer, currAddress, currCity, currCountry)) {
@@ -90,7 +89,7 @@ public class CustomerAddController implements Initializable {
     }
 
     @FXML
-    void handleCancel(ActionEvent event) {
+    void handleCancel() {
         try {
             FXMLLoader loader = new FXMLLoader(MainController.class.getResource("Main.fxml"));
             Parent root = loader.load();

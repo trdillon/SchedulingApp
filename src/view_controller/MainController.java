@@ -1,11 +1,9 @@
 package view_controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -17,37 +15,25 @@ public class MainController {
     private BorderPane bp;
 
     @FXML
-    private Button navBtnAppt;
-
-    @FXML
-    private Button navBtnCustomer;
-
-    @FXML
-    private Button navBtnReport;
-
-    @FXML
-    private Button navBtnLog;
-
-    @FXML
     private Button navBtnExit;
 
     @FXML
-    private void navAppt(MouseEvent event) throws IOException {
+    private void navAppt() throws IOException {
         loadScreen("Appointment");
     }
 
     @FXML
-    private void navCustomer(MouseEvent event) throws IOException {
+    private void navCustomer() throws IOException {
         loadScreen("Customer");
     }
 
     @FXML
-    private void navReport(MouseEvent event) throws IOException {
+    private void navReport() throws IOException {
         loadScreen("Report");
     }
 
     @FXML
-    private void navLog(ActionEvent event) throws IOException {
+    private void navLog() {
         try {
             ProcessBuilder pb = new ProcessBuilder("Notepad.exe", "audit_log.txt");
             pb.start();
@@ -58,7 +44,7 @@ public class MainController {
     }
 
     @FXML
-    private void navExit(ActionEvent event){
+    private void navExit(){
         Stage stage = (Stage) navBtnExit.getScene().getWindow();
         stage.close();
     }

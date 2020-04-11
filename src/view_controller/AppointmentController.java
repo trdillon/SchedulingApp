@@ -2,7 +2,6 @@ package view_controller;
 
 import dao.AppointmentDB;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -24,12 +23,6 @@ public class AppointmentController implements Initializable {
 
     @FXML
     private Button appBtnMod;
-
-    @FXML
-    private Button appBtnDelete;
-
-    @FXML
-    private TabPane tp;
 
     @FXML
     private Tab tpWeekly;
@@ -84,22 +77,17 @@ public class AppointmentController implements Initializable {
 
     public static Appointment currAppointment;
 
-    //Handle buttons
     @FXML
-    private void handleAppAdd(ActionEvent event) {
+    private void handleAppAdd() {
         try {
-            FXMLLoader appAddLoader = new FXMLLoader(AppointmentAddController.class.getResource("AppointmentAdd.fxml"));
-            Parent appAddScreen = appAddLoader.load();
-            Scene appAddScene = new Scene(appAddScreen);
-            Stage appAddStage = new Stage();
-
-            appAddStage.setTitle("Add an appointment");
-            appAddStage.setScene(appAddScene);
-            appAddStage.setResizable(false);
-            appAddStage.show();
-
-            Stage appStage = (Stage) appBtnAdd.getScene().getWindow();
-            appStage.close();
+            FXMLLoader loader = new FXMLLoader(AppointmentAddController.class.getResource("AppointmentAdd.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+            Stage currStage = (Stage) appBtnAdd.getScene().getWindow();
+            currStage.close();
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -107,7 +95,7 @@ public class AppointmentController implements Initializable {
     }
 
     @FXML
-    void handleAppDel(ActionEvent event) {
+    void handleAppDel() {
         Alert confirmDel = new Alert(Alert.AlertType.CONFIRMATION);
         confirmDel.setTitle("Delete appointment");
         confirmDel.setHeaderText("Are you sure you want to delete this appointment?");
@@ -155,23 +143,19 @@ public class AppointmentController implements Initializable {
     }
 
     @FXML
-    void handleAppMod(ActionEvent event) {
+    void handleAppMod() {
         if(tpWeekly.isSelected()) {
             currAppointment = appTableWeek.getSelectionModel().getSelectedItem();
             if(currAppointment != null) {
                 try {
-                    FXMLLoader appModLoader = new FXMLLoader(AppointmentModController.class.getResource("AppointmentMod.fxml"));
-                    Parent appModScreen = appModLoader.load();
-                    Scene appModScene = new Scene(appModScreen);
-                    Stage appModStage = new Stage();
-
-                    appModStage.setTitle("Modify an appointment");
-                    appModStage.setScene(appModScene);
-                    appModStage.setResizable(false);
-                    appModStage.show();
-
-                    Stage appStage = (Stage) appBtnMod.getScene().getWindow();
-                    appStage.close();
+                    FXMLLoader loader = new FXMLLoader(AppointmentModController.class.getResource("AppointmentMod.fxml"));
+                    Parent root = loader.load();
+                    Scene scene = new Scene(root);
+                    Stage stage = new Stage();
+                    stage.setScene(scene);
+                    stage.show();
+                    Stage currStage = (Stage) appBtnMod.getScene().getWindow();
+                    currStage.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -188,18 +172,14 @@ public class AppointmentController implements Initializable {
             currAppointment = appTableMonth.getSelectionModel().getSelectedItem();
             if(currAppointment != null) {
                 try {
-                    FXMLLoader appModLoader = new FXMLLoader(AppointmentModController.class.getResource("AppointmentMod.fxml"));
-                    Parent appModScreen = appModLoader.load();
-                    Scene appModScene = new Scene(appModScreen);
-                    Stage appModStage = new Stage();
-
-                    appModStage.setTitle("Modify an appointment");
-                    appModStage.setScene(appModScene);
-                    appModStage.setResizable(false);
-                    appModStage.show();
-
-                    Stage appStage = (Stage) appBtnMod.getScene().getWindow();
-                    appStage.close();
+                    FXMLLoader loader = new FXMLLoader(AppointmentModController.class.getResource("AppointmentMod.fxml"));
+                    Parent root = loader.load();
+                    Scene scene = new Scene(root);
+                    Stage stage = new Stage();
+                    stage.setScene(scene);
+                    stage.show();
+                    Stage currStage = (Stage) appBtnMod.getScene().getWindow();
+                    currStage.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -222,17 +202,14 @@ public class AppointmentController implements Initializable {
         appWeekCustomer.setCellValueFactory(cellData -> cellData.getValue().getCustomer().getCustomerNameProperty());
         appWeekStart.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getStart().format(formatDT)));
-
         appWeekEnd.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getEnd().format(formatDT)));
-
         appMonthTitle.setCellValueFactory(cellData -> cellData.getValue().getAppTitleProperty());
         appMonthContact.setCellValueFactory(cellData -> cellData.getValue().getAppContactProperty());
         appMonthLocation.setCellValueFactory(cellData -> cellData.getValue().getAppLocationProperty());
         appMonthCustomer.setCellValueFactory(cellData -> cellData.getValue().getCustomer().getCustomerNameProperty());
         appMonthStart.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getStart().format(formatDT)));
-
         appMonthEnd.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getEnd().format(formatDT)));
 

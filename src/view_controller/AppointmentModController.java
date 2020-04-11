@@ -5,7 +5,6 @@ import dao.CustomerDB;
 import exception.AppointmentException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -75,7 +74,7 @@ public class AppointmentModController implements Initializable {
     private final DateTimeFormatter formatTime = DateTimeFormatter.ofPattern("HH:mm");
 
     @FXML
-    private static ZoneId zid = ZoneId.systemDefault();
+    private static final ZoneId zid = ZoneId.systemDefault();
 
     private final ObservableList<Customer> customers = CustomerDB.getAllCustomers();
 
@@ -89,7 +88,7 @@ public class AppointmentModController implements Initializable {
             "London");
 
     @FXML
-    void handleUpdate(ActionEvent event) {
+    void handleUpdate() {
         try {
             getAppData();
             app.isValidApp();
@@ -116,7 +115,7 @@ public class AppointmentModController implements Initializable {
     }
 
     @FXML
-    void handleCancel(ActionEvent event) {
+    void handleCancel() {
         try {
             FXMLLoader loader = new FXMLLoader(MainController.class.getResource("Main.fxml"));
             Parent root = loader.load();
@@ -224,5 +223,4 @@ public class AppointmentModController implements Initializable {
         type.setItems(types);
         location.setItems(locations);
     }
-
 }

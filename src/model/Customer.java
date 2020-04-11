@@ -1,35 +1,29 @@
 package model;
 
 import exception.CustomerException;
-import javafx.beans.property.*;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class Customer {
 
     private IntegerProperty customerId = new SimpleIntegerProperty();
     private StringProperty customerName = new SimpleStringProperty();
     private IntegerProperty customerAddressId = new SimpleIntegerProperty();
-    private BooleanProperty isActive = new SimpleBooleanProperty();
 
-    //Constructors
     public Customer() {}
-    //TODO - safe delete customer constructor with parameters and unused getters & setters
-/*
-    public Customer(int id, String name, String address, String city, String zip, String phone) {
-        setCustomerId(id);
-        setCustomerName(name);
-        setCustomerAddress(address);
-        setCustomerCity(city);
-        setCustomerZip(zip);
-        setCustomerPhone(phone);
-    }
-*/
-    //Getters and Setters
+
     public int getCustomerId() {
         return customerId.get();
     }
 
     public void setCustomerId(int customerId) {
         this.customerId.set(customerId);
+    }
+
+    public IntegerProperty getCustomerIdProperty() {
+        return this.customerId;
     }
 
     public String getCustomerName() {
@@ -50,14 +44,6 @@ public class Customer {
 
     public void setCustomerAddressId(int customerAddressId) {
         this.customerAddressId.set(customerAddressId);
-    }
-
-    public boolean isActive() {
-        return isActive.get();
-    }
-
-    public void setActive(boolean customerActive) {
-        this.isActive.set(customerActive);
     }
 
     public static boolean isValidCust(Customer customer, Address address, City city, Country country) throws CustomerException {

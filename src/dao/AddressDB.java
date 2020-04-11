@@ -13,10 +13,10 @@ import static util.DBConnection.CONN;
 public class AddressDB {
 
     //Add a new address
-    public static int addAddress(Address address) {
+    public static void addAddress(Address address) {
         int addressId = getNextId();
         String query = String.join(" ",
-                "INSERT INTO address (addressId, address, address2, cityId, postalCode, phone, "
+                "INSERT INTO address (addressId, address, address2, cityId, postalCode, phone,"
                         + "createDate, createdBy, lastUpdate, lastUpdateBy)",
                 "VALUES (?, ?, ?, ?, ?, ?, NOW(), ?, NOW(), ?)");
 
@@ -37,7 +37,6 @@ public class AddressDB {
             System.out.println("SQL State: " + e.getSQLState());
             System.out.println("Vendor Error: " + e.getErrorCode());
         }
-        return addressId;
     }
 
     //Update an address
@@ -56,22 +55,6 @@ public class AddressDB {
             statement.setString(5, address.getPhone());
             statement.setString(6, activeUser.getUserName());
             statement.setInt(7, address.getAddressId());
-            statement.executeUpdate();
-        }
-        catch (SQLException e) {
-            System.out.println("SQL Exception: " + e.getMessage());
-            System.out.println("SQL State: " + e.getSQLState());
-            System.out.println("Vendor Error: " + e.getErrorCode());
-        }
-    }
-
-    //Delete an address
-    public void deleteAddress(Address address) {
-        String query = "DELETE FROM address WHERE addressId = ?";
-
-        try {
-            PreparedStatement statement = CONN.prepareStatement(query);
-            statement.setInt(1, address.getAddressId());
             statement.executeUpdate();
         }
         catch (SQLException e) {

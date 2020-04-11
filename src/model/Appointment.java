@@ -29,21 +29,7 @@ public class Appointment {
 
     public Appointment() {
     }
-    //TODO - safe delete appointment constructor with parameters and unused getters & setters
-/*
-    public Appointment(int id, int customerId, int userId, String title, String desc, String start, String end,
-                       String location, String contact) {
-        setAppointmentId(id);
-        setCustomerId(customerId);
-        setUserId(userId);
-        setAppTitle(title);
-        setAppDesc(desc);
-        setAppStart(start);
-        setAppEnd(end);
-        setAppLocation(location);
-        setAppContact(contact);
-    }
-*/
+
     public final int getAppointmentId() {
         return appointmentId.get();
     }
@@ -164,26 +150,6 @@ public class Appointment {
         this.customer = customer;
     }
 
-    //TODO - do I need these methods any more?
-    /*
-    public StringProperty getAppStartProperty() {
-        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
-        LocalDateTime ldt = LocalDateTime.parse(this.appStart.getValue(), df);
-        ZonedDateTime zdt = ldt.atZone(ZoneId.of("UTC"));
-        ZoneId zid = ZoneId.systemDefault();
-        ZonedDateTime utcZtd = zdt.withZoneSameInstant(zid);
-        return new SimpleStringProperty(utcZtd.toLocalDateTime().toString());
-    }
-
-    public StringProperty getAppEndProperty() {
-        DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
-        LocalDateTime ldt = LocalDateTime.parse(this.appEnd.getValue(), df);
-        ZonedDateTime zdt = ldt.atZone(ZoneId.of("UTC"));
-        ZoneId zid = ZoneId.systemDefault();
-        ZonedDateTime utcZtd = zdt.withZoneSameInstant(zid);
-        return new SimpleStringProperty(utcZtd.toLocalDateTime().toString());
-    }
-*/
     //Validate appointment data
     public boolean isValidApp() throws AppointmentException {
         if(this.customerId == null) {

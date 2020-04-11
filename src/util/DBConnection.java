@@ -42,9 +42,4 @@ public class DBConnection {
             System.out.println("SQL Exception: " + e.getMessage());
         }
     }
-
-    //Return the Connection object
-    public static Connection getConn() {
-        return CONN;
-    }
 }

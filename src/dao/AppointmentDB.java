@@ -14,13 +14,12 @@ import java.time.ZonedDateTime;
 import static dao.UserDB.activeUser;
 import static util.DBConnection.CONN;
 
-
 public class AppointmentDB {
 
     public static ZoneId zid = ZoneId.systemDefault();
 
     //Add an appointment
-    public static Appointment addAppointment(Appointment appointment) {
+    public static void addAppointment(Appointment appointment) {
         int appointmentId = getNextID();
         String query = String.join(" ",
                 "INSERT INTO appointment (appointmentId, customerId, userId, title, "
@@ -53,7 +52,6 @@ public class AppointmentDB {
             System.out.println("SQL State: " + e.getSQLState());
             System.out.println("Vendor Error: " + e.getErrorCode());
         }
-        return appointment;
     }
 
     //Update an appointment
@@ -107,7 +105,7 @@ public class AppointmentDB {
     }
 
     //Get a list of appointments by the week
-    public static ObservableList<Appointment> getAppByWeek () {
+    public static ObservableList<Appointment> getAppByWeek() {
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
         String query = "SELECT customer.*, appointment.* FROM customer "
                 + "RIGHT JOIN appointment ON customer.customerId = appointment.customerId "
@@ -150,7 +148,7 @@ public class AppointmentDB {
     }
 
     //Get a list of appointments by the month
-    public static ObservableList<Appointment> getAppByMonth () {
+    public static ObservableList<Appointment> getAppByMonth() {
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
         String query = "SELECT customer.*, appointment.* FROM customer "
                 + "RIGHT JOIN appointment ON customer.customerId = appointment.customerId "

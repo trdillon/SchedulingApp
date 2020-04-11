@@ -1,16 +1,13 @@
 package view_controller;
 
 import dao.CustomerDB;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import model.Address;
 import model.Customer;
 
 import java.io.IOException;
@@ -26,27 +23,15 @@ public class CustomerController implements Initializable {
     private Button custBtnMod;
 
     @FXML
-    private Button custBtnDelete;
-
-    @FXML
     private TableView<Customer> customerTable;
 
     @FXML
     private TableColumn<Customer, String> customerName;
 
-    @FXML
-    private TableColumn<Address, String> customerAddress;
-
-    @FXML
-    private TableColumn<Address, String> customerCity;
-
-    @FXML
-    private TableColumn<Address, String> customerPhone;
-
     public static Customer currCustomer;
 
     @FXML
-    void handleCustAdd(ActionEvent event) {
+    void handleCustAdd() {
         try {
             FXMLLoader loader = new FXMLLoader(CustomerAddController.class.getResource("CustomerAdd.fxml"));
             Parent root = loader.load();
@@ -63,7 +48,7 @@ public class CustomerController implements Initializable {
     }
 
     @FXML
-    void handleCustMod(ActionEvent event) {
+    void handleCustMod() {
         currCustomer = customerTable.getSelectionModel().getSelectedItem();
         if(currCustomer != null) {
             try {
@@ -89,7 +74,7 @@ public class CustomerController implements Initializable {
     }
 
     @FXML
-    void handleCustDel(ActionEvent event) {
+    void handleCustDel() {
         Alert confirmDel = new Alert(Alert.AlertType.CONFIRMATION);
         confirmDel.setTitle("Delete customer");
         confirmDel.setHeaderText("Are you sure you want to delete this customer?");
@@ -117,16 +102,12 @@ public class CustomerController implements Initializable {
 
     //Populate the customer table
     public void getCustomers() {
+        customerName.setCellValueFactory(cellData -> cellData.getValue().getCustomerNameProperty());
         customerTable.setItems(CustomerDB.getAllCustomers());
-
     }
 
     @Override
     public void initialize (URL url, ResourceBundle rb) {
-        customerName.setCellValueFactory(new PropertyValueFactory<>("customerName"));
-        customerAddress.setCellValueFactory(new PropertyValueFactory<>("customerAddress"));
-        customerCity.setCellValueFactory(new PropertyValueFactory<>("customerCity"));
-        customerPhone.setCellValueFactory(new PropertyValueFactory<>("customerPhone"));
         getCustomers();
     }
 }

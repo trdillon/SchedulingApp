@@ -59,22 +59,6 @@ public class CityDB {
         }
     }
 
-    //Delete a city
-    public void deleteCity(City city) {
-        String query = "DELETE FROM city WHERE cityId = ?";
-
-        try {
-            PreparedStatement statement = CONN.prepareStatement(query);
-            statement.setInt(1, city.getCityId());
-            statement.executeUpdate();
-        }
-        catch (SQLException e) {
-            System.out.println("SQL Exception: " + e.getMessage());
-            System.out.println("SQL State: " + e.getSQLState());
-            System.out.println("Vendor Error: " + e.getErrorCode());
-        }
-    }
-
     //Get cityId from city string
     public static int getCityId(String city) {
         int cityId = 0;

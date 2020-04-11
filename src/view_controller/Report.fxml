@@ -9,50 +9,39 @@
          <Font size="36.0" />
       </font>
    </Label>
-   <TabPane layoutX="53.0" layoutY="115.0" prefHeight="393.0" prefWidth="556.0" tabClosingPolicy="UNAVAILABLE">
-     <tabs>
-       <Tab text="Consultant Report">
-         <content>
-           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                  <children>
-                     <Label layoutX="125.0" layoutY="15.0" text="Appointments By Consultant">
-                        <font>
-                           <Font size="24.0" />
-                        </font>
-                     </Label>
-                     <TextArea fx:id="reportConsultant" layoutX="50.0" layoutY="75.0" prefHeight="260.0" prefWidth="475.0" />
-                  </children>
-               </AnchorPane>
-         </content>
-       </Tab>
-       <Tab text="Customer Report">
-         <content>
-           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                  <children>
-                     <Label layoutX="125.0" layoutY="15.0" text="Appointments By Customer">
-                        <font>
-                           <Font size="24.0" />
-                        </font>
-                     </Label>
-                     <TextArea fx:id="reportCustomer" layoutX="50.0" layoutY="75.0" prefHeight="260.0" prefWidth="475.0" />
-                  </children>
-               </AnchorPane>
-         </content>
-       </Tab>
-         <Tab text="Monthly Appointments">
-           <content>
-             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                  <children>
-                     <Label layoutX="125.0" layoutY="15.0" text="Appointments By Month">
-                        <font>
-                           <Font size="24.0" />
-                        </font>
-                     </Label>
-                     <TextArea fx:id="reportMonth" layoutX="50.0" layoutY="75.0" prefHeight="260.0" prefWidth="475.0" />
-                  </children>
-               </AnchorPane>
-           </content>
-         </Tab>
-     </tabs>
-   </TabPane>
+    <TabPane layoutX="53.0" layoutY="115.0" prefHeight="393.0" prefWidth="556.0" tabClosingPolicy="UNAVAILABLE">
+        <Tab text="Consultant Report">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <Label layoutX="125.0" layoutY="15.0" text="Appointments By Consultant">
+                    <font>
+                        <Font size="24.0"/>
+                    </font>
+                </Label>
+                <TextArea fx:id="reportConsultant" layoutX="50.0" layoutY="75.0" prefHeight="260.0"
+                          prefWidth="475.0"/>
+            </AnchorPane>
+        </Tab>
+        <Tab text="Customer Report">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <Label layoutX="125.0" layoutY="15.0" text="Appointments By Customer">
+                    <font>
+                        <Font size="24.0"/>
+                    </font>
+                </Label>
+                <TextArea fx:id="reportCustomer" layoutX="50.0" layoutY="75.0" prefHeight="260.0"
+                          prefWidth="475.0"/>
+            </AnchorPane>
+        </Tab>
+        <Tab text="Monthly Appointments">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <Label layoutX="125.0" layoutY="15.0" text="Appointments By Month">
+                    <font>
+                        <Font size="24.0"/>
+                    </font>
+                </Label>
+                <TextArea fx:id="reportMonth" layoutX="50.0" layoutY="75.0" prefHeight="260.0"
+                          prefWidth="475.0"/>
+            </AnchorPane>
+        </Tab>
+    </TabPane>
 </AnchorPane>
