@@ -305,10 +305,11 @@ public class AppointmentDB {
     //Check for overlapping appointments
     public static ObservableList<Appointment> getAppOverlap(LocalDateTime start, LocalDateTime end) {
         ObservableList<Appointment> appointments = FXCollections.observableArrayList();
-        String query = "SELECT * FROM appointment "
-                + "WHERE (start >= ? AND end <= ?) "
-                + "OR (start <= ? AND end >= ?) "
-                + "OR (start BETWEEN ? AND ? OR end BETWEEN ? AND ?)";
+        String query = String.join(" ",
+                "SELECT * FROM appointment",
+                "WHERE (start >= ? AND end <= ?)",
+                "OR (start <= ? AND end >= ?)",
+                "OR (start BETWEEN ? AND ? OR end BETWEEN ? AND ?)");
 
         try {
             LocalDateTime startLDT = start.atZone(zid).withZoneSameInstant(ZoneOffset.UTC).toLocalDateTime();
@@ -322,19 +323,19 @@ public class AppointmentDB {
             statement.setTimestamp(6, Timestamp.valueOf(endLDT));
             statement.setTimestamp(7, Timestamp.valueOf(startLDT));
             statement.setTimestamp(8, Timestamp.valueOf(endLDT));
-            ResultSet rs = statement.executeQuery();
+            ResultSet results = statement.executeQuery();
 
-            while(rs.next()) {
+            while(results.next()) {
                 Appointment appointment = new Appointment();
-                appointment.setAppointmentId(rs.getInt("appointmentId"));
-                appointment.setTitle(rs.getString("title"));
-                appointment.setDescription(rs.getString("description"));
-                appointment.setLocation(rs.getString("location"));
-                appointment.setContact(rs.getString("contact"));
-                appointment.setType(rs.getString("type"));
+                appointment.setAppointmentId(results.getInt("appointmentId"));
+                appointment.setTitle(results.getString("title"));
+                appointment.setDescription(results.getString("description"));
+                appointment.setLocation(results.getString("location"));
+                appointment.setContact(results.getString("contact"));
+                appointment.setType(results.getString("type"));
 
-                LocalDateTime startUTC = rs.getTimestamp("start").toLocalDateTime();
-                LocalDateTime endUTC = rs.getTimestamp("end").toLocalDateTime();
+                LocalDateTime startUTC = results.getTimestamp("start").toLocalDateTime();
+                LocalDateTime endUTC = results.getTimestamp("end").toLocalDateTime();
                 ZonedDateTime startLocal = ZonedDateTime.ofInstant(startUTC.toInstant(ZoneOffset.UTC), zid);
                 ZonedDateTime endLocal = ZonedDateTime.ofInstant(endUTC.toInstant(ZoneOffset.UTC), zid);
 

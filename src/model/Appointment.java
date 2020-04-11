@@ -237,10 +237,10 @@ public class Appointment {
 
     //Check if appointment overlaps with others
     public boolean isOverlapping() throws AppointmentException {
-        ObservableList<Appointment> overlapApp = AppointmentDB.getAppOverlap(this.start.toLocalDateTime(),
+        ObservableList<Appointment> appointments = AppointmentDB.getAppOverlap(this.start.toLocalDateTime(),
                 this.end.toLocalDateTime());
 
-        if(overlapApp.size() > 1) {
+        if(appointments.size() > 0) {
             throw new AppointmentException("The appointment cannot be scheduled at the same time as another appointment.");
         }
         return true;

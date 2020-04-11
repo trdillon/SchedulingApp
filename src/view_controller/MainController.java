@@ -48,7 +48,13 @@ public class MainController {
 
     @FXML
     private void navLog(ActionEvent event) throws IOException {
-        loadScreen("Login");
+        try {
+            ProcessBuilder pb = new ProcessBuilder("Notepad.exe", "audit_log.txt");
+            pb.start();
+        }
+        catch(IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
