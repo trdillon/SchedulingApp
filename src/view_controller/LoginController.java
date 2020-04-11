@@ -1,5 +1,7 @@
-package view;
+package view_controller;
 
+import dao.AppointmentDB;
+import dao.UserDB;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,8 +12,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.Appointment;
-import model.AppointmentDB;
-import model.UserDB;
 
 import java.io.IOException;
 import java.net.URL;
@@ -56,7 +56,7 @@ public class LoginController implements Initializable {
 
         if(validUser) {
             try {
-                Appointment app15 = AppointmentDB.getApp15();
+                Appointment app15 = AppointmentDB.getAppAlert();
                 if (!(app15.getAppointmentId() == 0)) {
                     Alert appAlert = new Alert(Alert.AlertType.INFORMATION);
                     appAlert.setTitle("Appointment Reminder");

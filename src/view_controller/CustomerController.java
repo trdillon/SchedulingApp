@@ -1,5 +1,6 @@
-package view;
+package view_controller;
 
+import dao.CustomerDB;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,8 +10,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import model.Address;
 import model.Customer;
-import model.CustomerDB;
 
 import java.io.IOException;
 import java.net.URL;
@@ -34,32 +35,27 @@ public class CustomerController implements Initializable {
     private TableColumn<Customer, String> customerName;
 
     @FXML
-    private TableColumn<Customer, String> customerAddress;
+    private TableColumn<Address, String> customerAddress;
 
     @FXML
-    private TableColumn<Customer, String> customerCity;
+    private TableColumn<Address, String> customerCity;
 
     @FXML
-    private TableColumn<Customer, String> customerPhone;
+    private TableColumn<Address, String> customerPhone;
 
-    private Customer currCustomer;
-
+    public static Customer currCustomer;
 
     @FXML
     void handleCustAdd(ActionEvent event) {
         try {
-            FXMLLoader custAddLoader = new FXMLLoader(CustomerAddController.class.getResource("CustomerAdd.fxml"));
-            Parent custAddScreen = custAddLoader.load();
-            Scene custAddScene = new Scene(custAddScreen);
-            Stage custAddStage = new Stage();
-
-            custAddStage.setTitle("Add a customer");
-            custAddStage.setScene(custAddScene);
-            custAddStage.setResizable(false);
-            custAddStage.show();
-
-            Stage custStage = (Stage) custBtnAdd.getScene().getWindow();
-            custStage.close();
+            FXMLLoader loader = new FXMLLoader(CustomerAddController.class.getResource("CustomerAdd.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+            Stage currStage = (Stage) custBtnAdd.getScene().getWindow();
+            currStage.close();
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -71,18 +67,14 @@ public class CustomerController implements Initializable {
         currCustomer = customerTable.getSelectionModel().getSelectedItem();
         if(currCustomer != null) {
             try {
-                FXMLLoader custModLoader = new FXMLLoader(CustomerModController.class.getResource("CustomerMod.fxml"));
-                Parent custModScreen = custModLoader.load();
-                Scene custModScene = new Scene(custModScreen);
-                Stage custModStage = new Stage();
-
-                custModStage.setTitle("Modify a customer");
-                custModStage.setScene(custModScene);
-                custModStage.setResizable(false);
-                custModStage.show();
-
-                Stage custStage = (Stage) custBtnMod.getScene().getWindow();
-                custStage.close();
+                FXMLLoader loader = new FXMLLoader(CustomerAddController.class.getResource("CustomerMod.fxml"));
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.show();
+                Stage currStage = (Stage) custBtnMod.getScene().getWindow();
+                currStage.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -107,7 +99,7 @@ public class CustomerController implements Initializable {
         if(confirmDel.getResult() == ButtonType.OK) {
             try {
                 currCustomer = customerTable.getSelectionModel().getSelectedItem();
-                CustomerDB.deleteCustomer(currCustomer.getCustomerId());
+                CustomerDB.deleteCustomer(currCustomer);
                 getCustomers();
             }
             catch (NullPointerException e) {
@@ -137,5 +129,4 @@ public class CustomerController implements Initializable {
         customerPhone.setCellValueFactory(new PropertyValueFactory<>("customerPhone"));
         getCustomers();
     }
-
 }

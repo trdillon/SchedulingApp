@@ -1,5 +1,6 @@
 package model;
 
+import dao.AppointmentDB;
 import exception.AppointmentException;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -7,28 +8,29 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 
-import java.time.*;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZonedDateTime;
 
 public class Appointment {
 
     private IntegerProperty appointmentId = new SimpleIntegerProperty();
     private IntegerProperty customerId = new SimpleIntegerProperty();
     private IntegerProperty userId = new SimpleIntegerProperty();
-    private StringProperty appTitle = new SimpleStringProperty();
-    private StringProperty appDesc = new SimpleStringProperty();
-    private StringProperty appStart = new SimpleStringProperty();
-    private StringProperty appEnd = new SimpleStringProperty();
-    private StringProperty appLocation = new SimpleStringProperty();
-    private StringProperty appContact = new SimpleStringProperty();
-    private StringProperty appType = new SimpleStringProperty();
+    private StringProperty title = new SimpleStringProperty();
+    private StringProperty description = new SimpleStringProperty();
+    private StringProperty location = new SimpleStringProperty();
+    private StringProperty contact = new SimpleStringProperty();
+    private StringProperty type = new SimpleStringProperty();
+    private StringProperty url = new SimpleStringProperty();
     private ZonedDateTime start;
     private ZonedDateTime end;
     private Customer customer = new Customer();
 
-    //Constructors
-    public Appointment() {}
-
+    public Appointment() {
+    }
+    //TODO - safe delete appointment constructor with parameters and unused getters & setters
+/*
     public Appointment(int id, int customerId, int userId, String title, String desc, String start, String end,
                        String location, String contact) {
         setAppointmentId(id);
@@ -41,8 +43,7 @@ public class Appointment {
         setAppLocation(location);
         setAppContact(contact);
     }
-
-    //Getters and Setters
+*/
     public final int getAppointmentId() {
         return appointmentId.get();
     }
@@ -79,80 +80,64 @@ public class Appointment {
         return userId;
     }
 
-    public String getAppTitle() {
-        return appTitle.get();
+    public String getTitle() {
+        return title.get();
     }
 
     public StringProperty getAppTitleProperty() {
-        return this.appTitle;
+        return this.title;
     }
 
-    public void setAppTitle(String appTitle) {
-        this.appTitle.set(appTitle);
+    public void setTitle(String title) {
+        this.title.set(title);
     }
 
-    public String getAppDesc() {
-        return appDesc.get();
+    public String getDescription() {
+        return description.get();
     }
 
     public StringProperty getAppDescProperty() {
-        return this.appDesc;
+        return this.description;
     }
 
-    public void setAppDesc(String appDesc) {
-        this.appDesc.set(appDesc);
+    public void setDescription(String description) {
+        this.description.set(description);
     }
 
-    public String getAppStart() {
-        return appStart.get();
-    }
-
-    public void setAppStart(String appStart) {
-        this.appStart.set(appStart);
-    }
-
-    public String getAppEnd() {
-        return appEnd.get();
-    }
-
-    public void setAppEnd(String appEnd) {
-        this.appEnd.set(appEnd);
-    }
-
-    public String getAppLocation() {
-        return appLocation.get();
+    public String getLocation() {
+        return location.get();
     }
 
     public StringProperty getAppLocationProperty() {
-        return this.appLocation;
+        return this.location;
     }
 
-    public void setAppLocation(String appLocation) {
-        this.appLocation.set(appLocation);
+    public void setLocation(String location) {
+        this.location.set(location);
     }
 
-    public String getAppContact() {
-        return appContact.get();
+    public String getContact() {
+        return contact.get();
     }
 
     public StringProperty getAppContactProperty() {
-        return this.appContact;
+        return this.contact;
     }
 
-    public void setAppContact(String appContact) {
-        this.appContact.set(appContact);
+    public void setContact(String contact) {
+        this.contact.set(contact);
     }
 
-    public String getAppType() {
-        return appType.get();
+    public String getType() {
+        return type.get();
     }
 
     public StringProperty getAppTypeProperty() {
-        return this.appType;
+        return this.type;
     }
 
-    public void setAppType(String appType) {
-        this.appType.set(appType);
+    public void setType(String type) {
+        this.type.set(type);
     }
 
     public ZonedDateTime getStart() {
@@ -180,7 +165,7 @@ public class Appointment {
     }
 
     //TODO - do I need these methods any more?
-    //Convert UTC to LDT
+    /*
     public StringProperty getAppStartProperty() {
         DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
         LocalDateTime ldt = LocalDateTime.parse(this.appStart.getValue(), df);
@@ -198,22 +183,22 @@ public class Appointment {
         ZonedDateTime utcZtd = zdt.withZoneSameInstant(zid);
         return new SimpleStringProperty(utcZtd.toLocalDateTime().toString());
     }
-
+*/
     //Validate appointment data
     public boolean isValidApp() throws AppointmentException {
         if(this.customerId == null) {
             throw new AppointmentException("There was no customer selected.");
         }
-        if(this.appTitle.get().equals("")) {
+        if(this.title.get().equals("")) {
             throw new AppointmentException("There was no title for the appointment");
         }
-        if(this.appDesc.get().equals("")) {
+        if(this.description.get().equals("")) {
             throw new AppointmentException("There was no description for the appointment.");
         }
-        if(this.appLocation.get().equals("")) {
+        if(this.location.get().equals("")) {
             throw new AppointmentException("There was no location for the appointment.");
         }
-        if(this.appContact.get().equals("")) {
+        if(this.contact.get().equals("")) {
             throw new AppointmentException("There was no contact for the appointment.");
         }
         isValidTime();
@@ -244,12 +229,15 @@ public class Appointment {
         if(appStartDate.isBefore(LocalDate.now()) || appStartTime.isBefore(LocalTime.MIDNIGHT)) {
             throw new AppointmentException("The appointment cannot be scheduled in the past.");
         }
+        if(appEndTime.isBefore(appStartTime)) {
+            throw new AppointmentException("The appointment cannot end before it starts.");
+        }
         return true;
     }
 
     //Check if appointment overlaps with others
     public boolean isOverlapping() throws AppointmentException {
-        ObservableList<Appointment> overlapApp = AppointmentDB.getOverlappingApps(this.start.toLocalDateTime(),
+        ObservableList<Appointment> overlapApp = AppointmentDB.getAppOverlap(this.start.toLocalDateTime(),
                 this.end.toLocalDateTime());
 
         if(overlapApp.size() > 1) {

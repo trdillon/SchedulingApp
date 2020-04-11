@@ -13,13 +13,13 @@ public class DBConnection {
     private static final String DBNAME = "U04IR7";
     private static final String URL = "jdbc:mysql://3.227.166.251/" + DBNAME;
     private static final String DRIVER = "com.mysql.jdbc.Driver";
-    private static Connection conn;
+    public static Connection CONN;
 
     //Connect to the DB
     public static void connect() {
         try {
             Class.forName(DRIVER);
-            conn = (Connection) DriverManager.getConnection(URL, USER, PASS);
+            CONN = (Connection) DriverManager.getConnection(URL, USER, PASS);
             System.out.println("Connection successful.");
         }
         catch(ClassNotFoundException e) {
@@ -35,7 +35,7 @@ public class DBConnection {
     //Disconnect from the DB
     public static void disconnect() {
         try {
-            conn.close();
+            CONN.close();
             System.out.println("Connection terminated.");
         }
         catch (SQLException e) {
@@ -45,6 +45,6 @@ public class DBConnection {
 
     //Return the Connection object
     public static Connection getConn() {
-        return conn;
+        return CONN;
     }
 }

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<AnchorPane maxHeight="600.0" maxWidth="650.0" minHeight="600.0" minWidth="650.0" prefHeight="600.0" prefWidth="650.0" style="-fx-background-color: #F4F9E9;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view_controller.CustomerAddController">
+    <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="53.0" maxWidth="650.0" minHeight="53.0" minWidth="650.0" prefHeight="53.0" prefWidth="650.0" text="Add Customer" AnchorPane.topAnchor="20.0">
+        <font>
+            <Font size="36.0" />
+        </font>
+    </Label>
+   <VBox layoutX="224.0" layoutY="120.0" prefHeight="420.0" prefWidth="263.0">
+      <children>
+         <TextField fx:id="customerName">
+            <VBox.margin>
+               <Insets top="30.0" />
+            </VBox.margin>
+         </TextField>
+         <TextField fx:id="address">
+            <VBox.margin>
+               <Insets top="30.0" />
+            </VBox.margin>
+         </TextField>
+         <TextField fx:id="address2">
+            <VBox.margin>
+               <Insets top="30.0" />
+            </VBox.margin>
+         </TextField>
+         <TextField fx:id="city">
+            <VBox.margin>
+               <Insets top="30.0" />
+            </VBox.margin>
+         </TextField>
+         <ComboBox fx:id="country" prefHeight="25.0" prefWidth="200.0">
+            <VBox.margin>
+               <Insets top="30.0" />
+            </VBox.margin>
+         </ComboBox>
+         <TextField fx:id="postalCode">
+            <VBox.margin>
+               <Insets top="30.0" />
+            </VBox.margin>
+         </TextField>
+         <TextField fx:id="phone">
+            <VBox.margin>
+               <Insets top="30.0" />
+            </VBox.margin>
+         </TextField>
+      </children>
+   </VBox>
+   <Button fx:id="custAddBtnCancel" layoutX="565.0" layoutY="530.0" mnemonicParsing="false" onAction="#handleCancel" text="Cancel" />
+   <Button fx:id="custAddBtnSave" layoutX="455.0" layoutY="530.0" mnemonicParsing="false" onAction="#handleAdd" text="Save" />
+   <Label layoutX="151.0" layoutY="154.0" text="Name:">
+      <font>
+         <Font size="14.0" />
+      </font>
+   </Label>
+   <Label layoutX="139.0" layoutY="209.0" text="Address:">
+      <font>
+         <Font size="14.0" />
+      </font>
+   </Label>
+   <Label layoutX="89.0" layoutY="263.0" text="Apartment/Unit:">
+      <font>
+         <Font size="14.0" />
+      </font>
+   </Label>
+   <Label layoutX="158.0" layoutY="320.0" text="City:">
+      <font>
+         <Font size="14.0" />
+      </font>
+   </Label>
+   <Label layoutX="139.0" layoutY="375.0" text="Country:">
+      <font>
+         <Font size="14.0" />
+      </font>
+   </Label>
+   <Label layoutX="88.0" layoutY="429.0" text="Postal/Zip Code:">
+      <font>
+         <Font size="14.0" />
+      </font>
+   </Label>
+   <Label layoutX="91.0" layoutY="484.0" text="Phone Number:">
+      <font>
+         <Font size="14.0" />
+      </font>
+   </Label>
+</AnchorPane>

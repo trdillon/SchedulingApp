@@ -1,5 +1,7 @@
-package view;
+package view_controller;
 
+import dao.AppointmentDB;
+import dao.CustomerDB;
 import exception.AppointmentException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,9 +16,7 @@ import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import javafx.util.converter.LocalTimeStringConverter;
 import model.Appointment;
-import model.AppointmentDB;
 import model.Customer;
-import model.CustomerDB;
 
 import java.io.IOException;
 import java.net.URL;
@@ -27,9 +27,10 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
-import static model.UserDB.activeUser;
+import static dao.UserDB.activeUser;
+import static view_controller.AppointmentController.currAppointment;
 
-public class AppointmentAddController implements Initializable {
+public class AppointmentModController implements Initializable {
 
     @FXML
     private ComboBox<Customer> customer;
@@ -59,10 +60,10 @@ public class AppointmentAddController implements Initializable {
     private Spinner<LocalTime> end;
 
     @FXML
-    private Button appAddBtnSave;
+    private Button appModBtnSave;
 
     @FXML
-    private Button appAddBtnCancel;
+    private Button appModBtnCancel;
 
     @FXML
     public static Appointment app = new Appointment();
@@ -88,21 +89,21 @@ public class AppointmentAddController implements Initializable {
             "London");
 
     @FXML
-    void handleAppAdd(ActionEvent event) {
+    void handleUpdate(ActionEvent event) {
         try {
-            getAppInfo();
+            getAppData();
             app.isValidApp();
             app.isOverlapping();
             if(app.isValidApp() && app.isOverlapping()) {
-                AppointmentDB.addAppointment(app);
-                FXMLLoader appLoader = new FXMLLoader(MainController.class.getResource("Main.fxml"));
-                Parent appScreen = appLoader.load();
-                Scene appScene = new Scene(appScreen);
-                Stage appStage = new Stage();
-                appStage.setScene(appScene);
-                appStage.show();
-                Stage appAddStage = (Stage) appAddBtnSave.getScene().getWindow();
-                appAddStage.close();
+                AppointmentDB.updateAppointment(app);
+                FXMLLoader loader = new FXMLLoader(MainController.class.getResource("Main.fxml"));
+                Parent root = loader.load();
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.show();
+                Stage currStage = (Stage) appModBtnSave.getScene().getWindow();
+                currStage.close();
             }
         }
         catch (AppointmentException | IOException e) {
@@ -115,45 +116,49 @@ public class AppointmentAddController implements Initializable {
     }
 
     @FXML
-    void handleAppCancel() {
+    void handleCancel(ActionEvent event) {
         try {
-                FXMLLoader appLoader = new FXMLLoader(MainController.class.getResource("Main.fxml"));
-                Parent appScreen = appLoader.load();
-                Scene appScene = new Scene(appScreen);
-                Stage appStage = new Stage();
-                appStage.setScene(appScene);
-                appStage.show();
-                Stage appAddStage = (Stage) appAddBtnCancel.getScene().getWindow();
-                appAddStage.close();
-            }
+            FXMLLoader loader = new FXMLLoader(MainController.class.getResource("Main.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+            Stage currStage = (Stage) appModBtnCancel.getScene().getWindow();
+            currStage.close();
+        }
         catch (IOException ex) {
             ex.printStackTrace();
         }
     }
 
-    //Populate the app data to pass to the add handler
-    public void getAppInfo() {
-        try {
-            app.setCustomer(customer.getValue());
-            app.setCustomerId(customer.getValue().getCustomerId());
-            app.setUserId(activeUser.getUserId());
-            app.setAppTitle(title.getText());
-            app.setAppContact(contact.getValue());
-            app.setAppDesc(description.getText());
-            app.setAppLocation(location.getValue());
-            app.setAppType(type.getValue());
-            app.setStart(ZonedDateTime.of(LocalDate.parse(date.getValue().toString(), formatDate),
-                    LocalTime.parse(start.getValue().toString(), formatTime), zid));
-            app.setEnd(ZonedDateTime.of(LocalDate.parse(date.getValue().toString(), formatDate),
-                    LocalTime.parse(end.getValue().toString(), formatTime), zid));
-        }
-        catch (NullPointerException e) {
-            Alert appAlert = new Alert(Alert.AlertType.ERROR);
-            appAlert.setTitle("Error");
-            appAlert.setHeaderText("There was an error processing the save request.");
-            appAlert.setContentText(e.getMessage());
-            appAlert.showAndWait();
-        }
+    //Populate the app data to pass to the mod handler
+    public void getAppData() {
+        app.setCustomerId(customer.getValue().getCustomerId());
+        app.setUserId(activeUser.getUserId());
+        app.setTitle(title.getText());
+        app.setDescription(description.getText());
+        app.setLocation(location.getValue());
+        app.setContact(contact.getValue());
+        app.setType(type.getValue());
+        app.setStart(ZonedDateTime.of(LocalDate.parse(date.getValue().toString(), formatDate), LocalTime.parse(start.getValue().toString(), formatTime), zid));
+        app.setEnd(ZonedDateTime.of(LocalDate.parse(date.getValue().toString(), formatDate), LocalTime.parse(end.getValue().toString(), formatTime), zid));
+        app.setAppointmentId(currAppointment.getAppointmentId());
+    }
+
+    //Populate the GUI with app data
+    public void setAppData() {
+        customer.setValue(currAppointment.getCustomer());
+        title.setText(currAppointment.getTitle());
+        description.setText(currAppointment.getDescription());
+        location.setValue(currAppointment.getLocation());
+        contact.setValue(currAppointment.getContact());
+        type.setValue(currAppointment.getType());
+        date.setValue(currAppointment.getStart().toLocalDate());
+        start.setValueFactory(valStart);
+        valStart.setValue(currAppointment.getStart().toLocalTime());
+        end.setValueFactory(valEnd);
+        valEnd.setValue(currAppointment.getEnd().toLocalTime());
     }
 
     //Get the customerName string from customer obj to populate the combo box
@@ -171,15 +176,7 @@ public class AppointmentAddController implements Initializable {
         });
     }
 
-    //Set the default time and SVF increments for the start/end fields
-    public void setTime() {
-        date.setValue(LocalDate.now());
-        start.setValueFactory(valStart);
-        valStart.setValue(LocalTime.of(8, 0));
-        end.setValueFactory(valEnd);
-        valEnd.setValue(LocalTime.of(17, 0));
-    }
-
+    //Set the SVF increments for the start/end fields
     SpinnerValueFactory valStart = new SpinnerValueFactory<LocalTime>() {
         {
             setConverter(new LocalTimeStringConverter(formatTime, null));
@@ -222,9 +219,10 @@ public class AppointmentAddController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         customer.setItems(customers);
         customerStringName();
+        setAppData();
         contact.setItems(contacts);
         type.setItems(types);
         location.setItems(locations);
-        setTime();
     }
+
 }

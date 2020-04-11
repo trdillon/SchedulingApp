@@ -1,5 +1,6 @@
 package model;
 
+import exception.CustomerException;
 import javafx.beans.property.*;
 
 public class Customer {
@@ -7,14 +8,11 @@ public class Customer {
     private IntegerProperty customerId = new SimpleIntegerProperty();
     private StringProperty customerName = new SimpleStringProperty();
     private IntegerProperty customerAddressId = new SimpleIntegerProperty();
-    private StringProperty customerAddress = new SimpleStringProperty();
-    private StringProperty customerCity = new SimpleStringProperty();
-    private StringProperty customerZip = new SimpleStringProperty();
-    private StringProperty customerPhone = new SimpleStringProperty();
     private BooleanProperty isActive = new SimpleBooleanProperty();
 
     //Constructors
     public Customer() {}
+    //TODO - safe delete customer constructor with parameters and unused getters & setters
 /*
     public Customer(int id, String name, String address, String city, String zip, String phone) {
         setCustomerId(id);
@@ -50,40 +48,8 @@ public class Customer {
         return customerAddressId.get();
     }
 
-    public void setCustomerAddressIdId(int customerAddressId) {
+    public void setCustomerAddressId(int customerAddressId) {
         this.customerAddressId.set(customerAddressId);
-    }
-
-    public String getCustomerAddress() {
-        return customerAddress.get();
-    }
-
-    public void setCustomerAddress(String customerAddress) {
-        this.customerAddress.set(customerAddress);
-    }
-
-    public String getCustomerCity() {
-        return customerCity.get();
-    }
-
-    public void setCustomerCity(String customerCity) {
-        this.customerCity.set(customerCity);
-    }
-
-    public String getCustomerZip() {
-        return customerZip.get();
-    }
-
-    public void setCustomerZip(String customerZip) {
-        this.customerZip.set(customerZip);
-    }
-
-    public String getCustomerPhone() {
-        return customerPhone.get();
-    }
-
-    public void setCustomerPhone(String customerPhone) {
-        this.customerPhone.set(customerPhone);
     }
 
     public boolean isActive() {
@@ -92,5 +58,27 @@ public class Customer {
 
     public void setActive(boolean customerActive) {
         this.isActive.set(customerActive);
+    }
+
+    public static boolean isValidCust(Customer customer, Address address, City city, Country country) throws CustomerException {
+        if (customer.getCustomerName().equals("")) {
+            throw new CustomerException("The customer name cannot be blank.");
+        }
+        if (address.getAddress().equals("")) {
+            throw new CustomerException("The address cannot be blank.");
+        }
+        if (address.getPhone().equals("")) {
+            throw new CustomerException("The phone number cannot be blank.");
+        }
+        if (address.getPostalCode().equals("")) {
+            throw new CustomerException("The postal/zip code cannot be blank.");
+        }
+        if (city.getCity().equals("")) {
+            throw new CustomerException("The city cannot be blank.");
+        }
+        if (country.getCountry().equals("")) {
+            throw new CustomerException("There must be a country selected.");
+        }
+        return true;
     }
 }

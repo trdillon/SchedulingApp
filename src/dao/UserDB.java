@@ -1,7 +1,8 @@
-package model;
+package dao;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import model.User;
 import util.DBConnection;
 import util.Logger;
 

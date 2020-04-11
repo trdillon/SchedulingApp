@@ -10,7 +10,7 @@ public class Main extends Application {
     //Load the login screen
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("view/Login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("view_controller/Login.fxml"));
         Scene scene = new Scene(root);
 
         stage.setTitle("Scheduling App");

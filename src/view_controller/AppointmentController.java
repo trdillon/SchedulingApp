@@ -1,5 +1,6 @@
-package view;
+package view_controller;
 
+import dao.AppointmentDB;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,7 +11,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import model.Appointment;
-import model.AppointmentDB;
 
 import java.io.IOException;
 import java.net.URL;
