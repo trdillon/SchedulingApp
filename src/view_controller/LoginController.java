@@ -46,7 +46,7 @@ public class LoginController implements Initializable {
     private String errorHeader;
     private String errorTitle;
     private String errorText;
-//TODO - Test the 15 min upcoming appointment reminder
+
     //Handle the login and check for upcoming appointments upon login
     @FXML
     public void handleLogin(ActionEvent event) {
