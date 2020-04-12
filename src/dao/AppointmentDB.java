@@ -266,16 +266,16 @@ public class AppointmentDB {
     //Get appointments upcoming in the next 15 minutes for alert on login
     public static Appointment getAppAlert() {
         Appointment appointment = new Appointment();
+        LocalDateTime now = LocalDateTime.now();
+        ZonedDateTime zdt = now.atZone(zid);
+        LocalDateTime ldt = zdt.withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime();
+        LocalDateTime ldt15 = ldt.plusMinutes(15);
         String query = "SELECT customer.customerName, appointment.* FROM appointment "
                 + "JOIN customer ON appointment.customerId = customer.customerId "
-                + "WHERE (start BETWEEN ? AND ADDTIME(NOW(), '00:15:00'))";
+                + "WHERE start BETWEEN '" + ldt + "' AND '" + ldt15 + "'";
 
         try {
             PreparedStatement statement = CONN.prepareStatement(query);
-            ZonedDateTime lzt = ZonedDateTime.now(zid);
-            ZonedDateTime zdtUTC = lzt.withZoneSameInstant(ZoneId.of("UTC"));
-            LocalDateTime localUTC = zdtUTC.toLocalDateTime();
-            statement.setTimestamp(1, Timestamp.valueOf(localUTC));
             ResultSet results = statement.executeQuery();
 
             while(results.next()) {
