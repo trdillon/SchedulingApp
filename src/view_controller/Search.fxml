@@ -26,15 +26,9 @@
                 </Label>
             <TextField fx:id="txtConsultantSearch" layoutX="126.0" layoutY="102.0" />
             <Label layoutX="154.0" layoutY="73.0" text="Consultant Name" />
-            <Button fx:id="btnConsultantSearch" layoutX="349.0" layoutY="102.0" mnemonicParsing="false" onAction="#searchConsultant" text="Search" />
-            <TableView fx:id="tblConsultantResults" layoutX="26.0" layoutY="164.0" prefHeight="200.0" prefWidth="508.0">
+            <Button fx:id="btnConsultantSearch" layoutX="349.0" layoutY="102.0" mnemonicParsing="false" text="Search" onAction="#handleConsultant" />
+            <TableView fx:id="tblConsultant" layoutX="26.0" layoutY="164.0" prefHeight="200.0" prefWidth="508.0">
                <columns>
-                  <TableColumn fx:id="col1Consultant" prefWidth="89.0" text="Consultant" />
-                  <TableColumn fx:id="col1Customer" prefWidth="89.0" text="Customer" />
-                  <TableColumn fx:id="col1Appointment" prefWidth="107.0" text="Appointment" />
-                  <TableColumn fx:id="col1Date" prefWidth="75.0" text="Date" />
-                  <TableColumn fx:id="col1Start" prefWidth="75.0" text="Start" />
-                  <TableColumn fx:id="col1End" prefWidth="75.0" text="End" />
                </columns></TableView>
             </AnchorPane>
         </Tab>
@@ -47,15 +41,9 @@
                 </Label>
                 <TextField fx:id="txtCustomerSearch" layoutX="126.0" layoutY="102.0" />
                 <Label layoutX="154.0" layoutY="73.0" text="Customer Name" />
-                <Button fx:id="btnCustomerSearch" layoutX="349.0" layoutY="102.0" mnemonicParsing="false" text="Search" />
-                <TableView fx:id="tblCustomerResults" layoutX="26.0" layoutY="164.0" prefHeight="200.0" prefWidth="508.0">
+                <Button fx:id="btnCustomerSearch" layoutX="349.0" layoutY="102.0" mnemonicParsing="false" text="Search" onAction="#handleCustomer" />
+                <TableView fx:id="tblCustomer" layoutX="26.0" layoutY="164.0" prefHeight="200.0" prefWidth="508.0">
                     <columns>
-                        <TableColumn fx:id="col2Customer" prefWidth="89.0" text="Customer" />
-                        <TableColumn fx:id="col2Consultant" prefWidth="89.0" text="Consultant" />
-                        <TableColumn fx:id="col2Appointment" prefWidth="107.0" text="Appointment" />
-                        <TableColumn fx:id="col2Date" prefWidth="75.0" text="Date" />
-                        <TableColumn fx:id="col2Start" prefWidth="75.0" text="Start" />
-                        <TableColumn fx:id="col2End" prefWidth="75.0" text="End" />
                     </columns></TableView>
             </AnchorPane>
         </Tab>
