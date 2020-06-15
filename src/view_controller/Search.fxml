@@ -4,6 +4,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -18,15 +20,23 @@
     <TabPane layoutX="53.0" layoutY="115.0" prefHeight="393.0" prefWidth="556.0" tabClosingPolicy="UNAVAILABLE">
         <Tab text="Consultant Search">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                <Label layoutX="125.0" layoutY="15.0" text="Search By Consultant">
+                <Label layoutX="162.0" layoutY="14.0" text="Search By Consultant">
                     <font>
                         <Font size="24.0" />
                     </font>
                 </Label>
-                <TextArea fx:id="searchConsultant" layoutX="50.0" layoutY="162.0" prefHeight="173.0" prefWidth="475.0" />
             <TextField fx:id="txtConsultantSearch" layoutX="126.0" layoutY="102.0" />
             <Label layoutX="154.0" layoutY="73.0" text="Consultant Name" />
-            <Button fx:id="btnConsultantSearch" layoutX="349.0" layoutY="102.0" mnemonicParsing="false" text="Search" />
+            <Button fx:id="btnConsultantSearch" layoutX="349.0" layoutY="102.0" mnemonicParsing="false" onAction="#searchConsultant" text="Search" />
+            <TableView fx:id="tblConsultantResults" layoutX="26.0" layoutY="164.0" prefHeight="200.0" prefWidth="508.0">
+               <columns>
+                  <TableColumn fx:id="colConsultant" prefWidth="89.0" text="Consultant" />
+                  <TableColumn fx:id="colCustomer" prefWidth="89.0" text="Customer" />
+                  <TableColumn fx:id="colAppointment" prefWidth="107.0" text="Appointment" />
+                  <TableColumn fx:id="colDate" prefWidth="75.0" text="Date" />
+                  <TableColumn fx:id="colStart" prefWidth="75.0" text="Start" />
+                  <TableColumn fx:id="colEnd" prefWidth="75.0" text="End" />
+               </columns></TableView>
             </AnchorPane>
         </Tab>
         <Tab text="Customer Search">

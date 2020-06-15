@@ -119,5 +119,4 @@ public class ReportController implements Initializable {
         setReportCustomer();
         setReportMonth();
     }
-
 }
