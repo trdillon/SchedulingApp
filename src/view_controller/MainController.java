@@ -33,6 +33,11 @@ public class MainController {
     }
 
     @FXML
+    private void navSearch() throws IOException {
+        loadScreen("Search");
+    }
+
+    @FXML
     private void navLog() {
         try {
             ProcessBuilder pb = new ProcessBuilder("Notepad.exe", "audit_log.txt");

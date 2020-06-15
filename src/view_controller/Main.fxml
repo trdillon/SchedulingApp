@@ -32,7 +32,15 @@
                <Font name="Berlin Sans FB" size="18.0"/>
             </font>
          </Button>
-         <Button layoutX="10.0" layoutY="166.0" mnemonicParsing="false" onAction="#navLog"
+         <Button layoutX="10.0" layoutY="166.0" mnemonicParsing="false" onAction="#navSearch"
+                 prefHeight="52.0" prefWidth="150.0"
+                 style="-fx-background-color: transparent; -fx-border-color: tan; -fx-border-width: 0px 0px 1px 0px;"
+                 text="Search">
+            <font>
+               <Font name="Berlin Sans FB" size="18.0"/>
+            </font>
+         </Button>
+         <Button layoutX="10.0" layoutY="218.0" mnemonicParsing="false" onAction="#navLog"
                  prefHeight="52.0" prefWidth="150.0"
                  style="-fx-background-color: transparent; -fx-border-color: tan; -fx-border-width: 0px 0px 1px 0px;"
                  text="Log">

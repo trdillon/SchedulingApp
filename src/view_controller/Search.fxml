@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<AnchorPane maxHeight="600.0" maxWidth="650.0" minHeight="600.0" minWidth="650.0" prefHeight="600.0" prefWidth="650.0" style="-fx-background-color: #F4F9E9;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view_controller.SearchController">
+    <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="53.0" maxWidth="650.0" minHeight="53.0" minWidth="650.0" prefHeight="53.0" prefWidth="650.0" text="Search" AnchorPane.topAnchor="20.0">
+        <font>
+            <Font size="36.0" />
+        </font>
+    </Label>
+    <TabPane layoutX="53.0" layoutY="115.0" prefHeight="393.0" prefWidth="556.0" tabClosingPolicy="UNAVAILABLE">
+        <Tab text="Consultant Search">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <Label layoutX="125.0" layoutY="15.0" text="Search By Consultant">
+                    <font>
+                        <Font size="24.0"/>
+                    </font>
+                </Label>
+                <TextArea fx:id="searchConsultant" layoutX="50.0" layoutY="75.0" prefHeight="260.0"
+                          prefWidth="475.0"/>
+            </AnchorPane>
+        </Tab>
+        <Tab text="Customer Search">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <Label layoutX="125.0" layoutY="15.0" text="Search By Customer">
+                    <font>
+                        <Font size="24.0"/>
+                    </font>
+                </Label>
+                <TextArea fx:id="searchCustomer" layoutX="50.0" layoutY="75.0" prefHeight="260.0"
+                          prefWidth="475.0"/>
+            </AnchorPane>
+        </Tab>
+    </TabPane>
+</AnchorPane>
