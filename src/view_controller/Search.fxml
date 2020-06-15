@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
+
 <AnchorPane maxHeight="600.0" maxWidth="650.0" minHeight="600.0" minWidth="650.0" prefHeight="600.0" prefWidth="650.0" style="-fx-background-color: #F4F9E9;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view_controller.SearchController">
     <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="53.0" maxWidth="650.0" minHeight="53.0" minWidth="650.0" prefHeight="53.0" prefWidth="650.0" text="Search" AnchorPane.topAnchor="20.0">
         <font>
@@ -14,22 +20,26 @@
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                 <Label layoutX="125.0" layoutY="15.0" text="Search By Consultant">
                     <font>
-                        <Font size="24.0"/>
+                        <Font size="24.0" />
                     </font>
                 </Label>
-                <TextArea fx:id="searchConsultant" layoutX="50.0" layoutY="75.0" prefHeight="260.0"
-                          prefWidth="475.0"/>
+                <TextArea fx:id="searchConsultant" layoutX="50.0" layoutY="162.0" prefHeight="173.0" prefWidth="475.0" />
+            <TextField fx:id="txtConsultantSearch" layoutX="126.0" layoutY="102.0" />
+            <Label layoutX="154.0" layoutY="73.0" text="Consultant Name" />
+            <Button fx:id="btnConsultantSearch" layoutX="349.0" layoutY="102.0" mnemonicParsing="false" text="Search" />
             </AnchorPane>
         </Tab>
         <Tab text="Customer Search">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                 <Label layoutX="125.0" layoutY="15.0" text="Search By Customer">
                     <font>
-                        <Font size="24.0"/>
+                        <Font size="24.0" />
                     </font>
                 </Label>
-                <TextArea fx:id="searchCustomer" layoutX="50.0" layoutY="75.0" prefHeight="260.0"
-                          prefWidth="475.0"/>
+                <TextArea fx:id="searchCustomer" layoutX="50.0" layoutY="162.0" prefHeight="173.0" prefWidth="475.0" />
+                <TextField fx:id="txtCustomerSearch" layoutX="126.0" layoutY="102.0" />
+                <Label layoutX="154.0" layoutY="73.0" text="Customer Name" />
+                <Button fx:id="btnCustomerSearch" layoutX="349.0" layoutY="102.0" mnemonicParsing="false" text="Search" />
             </AnchorPane>
         </Tab>
     </TabPane>
