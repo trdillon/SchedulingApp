@@ -171,7 +171,7 @@ public class ReportController {
     public void createMonthReport() {
         monthData = FXCollections.observableArrayList();
         try {
-            String query = "SELECT customer.customerName, appointment.contact, appointment.type, start, end " +
+            String query = "SELECT start, customer.customerName, appointment.contact, appointment.type " +
                     "FROM appointment LEFT JOIN customer ON appointment.customerId = customer.customerId " +
                     "ORDER BY start";
             ResultSet rs = CONN.createStatement().executeQuery(query);
