@@ -1,29 +1,85 @@
 package view_controller;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TableView;
 
-import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Collections;
-import java.util.ResourceBundle;
 
 import static util.DBConnection.CONN;
 
-public class ReportController implements Initializable {
+public class ReportController {
 
     @FXML
-    private TextArea reportConsultant;
+    private TableView tvConsultant;
 
     @FXML
-    private TextArea reportCustomer;
+    private TableView tvCustomer;
 
     @FXML
-    private TextArea reportMonth;
+    private TableView tvMonth;
 
+    @FXML
+    private Tab tabConsultant;
+
+    @FXML
+    private Tab tabCustomer;
+
+    @FXML
+    private Tab tabMonth;
+
+    @FXML
+    private Label lblConsultant;
+
+    @FXML
+    private Label lblConsultantTime;
+
+    @FXML
+    private Label lblCustomerTime;
+
+    @FXML
+    private Label lblMonth;
+
+    @FXML
+    private Label lblMonthTime;
+
+    private ObservableList<ObservableList> consultantData;
+    private ObservableList<ObservableList> customerData;
+    private ObservableList<ObservableList> monthData;
+
+    @FXML
+    private void handleCreateReport() {
+        if(tabConsultant.isSelected()) {
+
+        }
+        else if(tabCustomer.isSelected()) {
+
+        }
+        else if(tabMonth.isSelected()) {
+
+        }
+    }
+
+    private void createConsultantReport() {
+
+    }
+
+    private void createCustomerReport() {
+
+    }
+
+    private void createMonthReport() {
+
+    }
+
+
+
+/*
     public void setReportConsultant() {
         try {
             Statement statement = CONN.createStatement();
@@ -112,11 +168,5 @@ public class ReportController implements Initializable {
             System.out.println("Vendor Error: " + e.getErrorCode());
         }
     }
-
-    @Override
-    public void initialize (URL url, ResourceBundle rb) {
-        setReportConsultant();
-        setReportCustomer();
-        setReportMonth();
-    }
+*/
 }
