@@ -46,6 +46,9 @@ public class ReportController {
     private Label lblConsultantTime;
 
     @FXML
+    private Label lblCustomer;
+
+    @FXML
     private Label lblCustomerTime;
 
     @FXML
@@ -70,10 +73,20 @@ public class ReportController {
             createConsultantReport();
         }
         else if(tabCustomer.isSelected()) {
-
+            tvCustomer.getItems().clear();
+            tvCustomer.getColumns().clear();
+            lblCustomer.setVisible(true);
+            lblCustomerTime.setText(DateFormatter.getDTFNow());
+            lblCustomerTime.setVisible(true);
+            createCustomerReport();
         }
         else if(tabMonth.isSelected()) {
-
+            tvMonth.getItems().clear();
+            tvMonth.getColumns().clear();
+            lblMonth.setVisible(true);
+            lblMonthTime.setText(DateFormatter.getDTFNow());
+            lblMonthTime.setVisible(true);
+            createMonthReport();
         }
     }
 
@@ -117,103 +130,80 @@ public class ReportController {
     }
 
     public void createCustomerReport() {
+        customerData = FXCollections.observableArrayList();
+        try {
+            String query = "SELECT customer.customerName, appointment.contact, appointment.type, start, end " +
+                    "FROM appointment LEFT JOIN customer ON appointment.customerId = customer.customerId " +
+                    "ORDER BY customer.customerName";
+            ResultSet rs = CONN.createStatement().executeQuery(query);
 
+            //Create the table columns
+            for(int i = 0 ; i < rs.getMetaData().getColumnCount(); i++) {
+                final int j = i;
+                TableColumn col = new TableColumn(rs.getMetaData().getColumnName(i+1));
+                col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList,String>, ObservableValue<String>>() {
+                    public ObservableValue<String> call(TableColumn.CellDataFeatures<ObservableList, String> param) {
+                        return new SimpleStringProperty(param.getValue().get(j).toString());
+                    }
+                });
+                tvCustomer.getColumns().addAll(col);
+            }
+
+            //Add the data to an observable list
+            while(rs.next()) {
+                ObservableList<String> row = FXCollections.observableArrayList();
+                for(int i = 1 ; i <= rs.getMetaData().getColumnCount(); i++) {
+                    row.add(rs.getString(i));
+                }
+                customerData.add(row);
+            }
+
+            //Populate the tableView
+            tvCustomer.setItems(customerData);
+        }
+        catch(SQLException e) {
+            System.out.println("SQL Exception: " + e.getMessage());
+            System.out.println("SQL State: " + e.getSQLState());
+            System.out.println("Vendor Error: " + e.getErrorCode());
+        }
     }
 
     public void createMonthReport() {
-
-    }
-
-
-
-/*
-    public void setReportConsultant() {
+        monthData = FXCollections.observableArrayList();
         try {
-            Statement statement = CONN.createStatement();
-            String query = "SELECT appointment.contact, appointment.type, customer.customerName, start, end " +
-                    "FROM appointment JOIN customer ON customer.customerId = appointment.customerId " +
-                    "GROUP BY appointment.contact, MONTH(start), start";
-            ResultSet results = statement.executeQuery(query);
+            String query = "SELECT customer.customerName, appointment.contact, appointment.type, start, end " +
+                    "FROM appointment LEFT JOIN customer ON appointment.customerId = customer.customerId " +
+                    "ORDER BY start";
+            ResultSet rs = CONN.createStatement().executeQuery(query);
 
-            StringBuilder reportText = new StringBuilder();
-            reportText.append(String.format("%1$-25s %2$-25s %3$-25s %4$-25s %5$s \n",
-                    "Consultant", "Appointment Type", "Customer", "Start", "End"));
-            reportText.append(String.join("", Collections.nCopies(110, "_")));
-            reportText.append("\n");
-
-            while(results.next()) {
-                reportText.append(String.format("%1$-25s %2$-25s %3$-25s %4$-25s %5$s \n",
-                        results.getString("contact"), results.getString("type"),
-                        results.getString("customerName"),
-                        results.getString("start"), results.getString("end")));
+            //Create the table columns
+            for(int i = 0 ; i < rs.getMetaData().getColumnCount(); i++) {
+                final int j = i;
+                TableColumn col = new TableColumn(rs.getMetaData().getColumnName(i+1));
+                col.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ObservableList,String>, ObservableValue<String>>() {
+                    public ObservableValue<String> call(TableColumn.CellDataFeatures<ObservableList, String> param) {
+                        return new SimpleStringProperty(param.getValue().get(j).toString());
+                    }
+                });
+                tvMonth.getColumns().addAll(col);
             }
 
-            statement.close();
-            reportConsultant.setText(reportText.toString());
+            //Add the data to an observable list
+            while(rs.next()) {
+                ObservableList<String> row = FXCollections.observableArrayList();
+                for(int i = 1 ; i <= rs.getMetaData().getColumnCount(); i++) {
+                    row.add(rs.getString(i));
+                }
+                monthData.add(row);
+            }
+
+            //Populate the tableView
+            tvMonth.setItems(monthData);
         }
-        catch (SQLException e) {
+        catch(SQLException e) {
             System.out.println("SQL Exception: " + e.getMessage());
             System.out.println("SQL State: " + e.getSQLState());
             System.out.println("Vendor Error: " + e.getErrorCode());
         }
     }
-
-    public void setReportCustomer() {
-        try {
-            Statement statement = CONN.createStatement();
-            String query = "SELECT customer.customerName, COUNT(*) as 'Total' " +
-                    "FROM customer JOIN appointment ON customer.customerId = appointment.customerId " +
-                    "GROUP BY customerName";
-            ResultSet results = statement.executeQuery(query);
-
-            StringBuilder reportText = new StringBuilder();
-            reportText.append(String.format("%1$-65s %2$-65s \n",
-                    "Customer", "Total"));
-            reportText.append(String.join("", Collections.nCopies(110, "_")));
-            reportText.append("\n");
-
-            while(results.next()) {
-                reportText.append(String.format("%1$s %2$65d \n",
-                        results.getString("customerName"), results.getInt("Total")));
-            }
-
-            statement.close();
-            reportCustomer.setText(reportText.toString());
-        }
-        catch (SQLException e) {
-            System.out.println("SQL Exception: " + e.getMessage());
-            System.out.println("SQL State: " + e.getSQLState());
-            System.out.println("Vendor Error: " + e.getErrorCode());
-        }
-    }
-
-    public void setReportMonth() {
-        try {
-            Statement statement = CONN.createStatement();
-            String query = "SELECT type, MONTHNAME(start) as 'Month', COUNT(*) as 'Total' " +
-                    "FROM appointment " +
-                    "GROUP BY type, MONTH(start)";
-            ResultSet results = statement.executeQuery(query);
-
-            StringBuilder reportText = new StringBuilder();
-            reportText.append(String.format("%1$-55s %2$-55s %3$s \n", "Month", "Appointment Type", "Total"));
-            reportText.append(String.join("", Collections.nCopies(110, "_")));
-            reportText.append("\n");
-
-            while(results.next()) {
-                reportText.append(String.format("%1$-55s %2$-60s %3$d \n",
-                        results.getString("Month"), results.getString("type"),
-                        results.getInt("Total")));
-            }
-
-            statement.close();
-            reportMonth.setText(reportText.toString());
-        }
-        catch (SQLException e) {
-            System.out.println("SQL Exception: " + e.getMessage());
-            System.out.println("SQL State: " + e.getSQLState());
-            System.out.println("Vendor Error: " + e.getErrorCode());
-        }
-    }
-*/
 }
