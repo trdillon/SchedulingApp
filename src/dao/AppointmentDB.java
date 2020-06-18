@@ -190,6 +190,48 @@ public class AppointmentDB {
         return appointments;
     }
 
+    //Get all appointments
+    public static ObservableList<Appointment> getAppAll() {
+        ObservableList<Appointment> appointments = FXCollections.observableArrayList();
+        String query = "SELECT customer.*, appointment.* FROM customer "
+                + "RIGHT JOIN appointment ON customer.customerId = appointment.customerId "
+                + "ORDER BY start";
+
+        try {
+            PreparedStatement statement = CONN.prepareStatement(query);
+            ResultSet results = statement.executeQuery();
+
+            while (results.next()) {
+                Customer customer = CustomerDB.getCustomerByID(results.getInt("customerId"));
+                Appointment appointment = new Appointment();
+
+                appointment.setCustomer(customer);
+                appointment.setAppointmentId(results.getInt("appointmentId"));
+                appointment.setCustomerId(results.getInt("customerId"));
+                appointment.setUserId(results.getInt("userId"));
+                appointment.setTitle(results.getString("title"));
+                appointment.setDescription(results.getString("description"));
+                appointment.setLocation(results.getString("location"));
+                appointment.setContact(results.getString("contact"));
+                appointment.setType(results.getString("type"));
+
+                LocalDateTime startUTC = results.getTimestamp("start").toLocalDateTime();
+                LocalDateTime endUTC = results.getTimestamp("end").toLocalDateTime();
+                ZonedDateTime startLocal = ZonedDateTime.ofInstant(startUTC.toInstant(ZoneOffset.UTC), zid);
+                ZonedDateTime endLocal = ZonedDateTime.ofInstant(endUTC.toInstant(ZoneOffset.UTC), zid);
+
+                appointment.setStart(startLocal);
+                appointment.setEnd(endLocal);
+                appointments.add(appointment);
+            }
+        } catch (SQLException e) {
+            System.out.println("SQL Exception: " + e.getMessage());
+            System.out.println("SQL State: " + e.getSQLState());
+            System.out.println("Vendor Error: " + e.getErrorCode());
+        }
+        return appointments;
+    }
+
     //Get an appointment by ID
     public Appointment getAppByID(int appID) {
         Appointment appointment = new Appointment();
