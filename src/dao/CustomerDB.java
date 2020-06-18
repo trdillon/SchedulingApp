@@ -2,6 +2,7 @@ package dao;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 import model.Customer;
 
 import java.sql.PreparedStatement;
@@ -72,6 +73,11 @@ public class CustomerDB {
             System.out.println("SQL Exception: " + e.getMessage());
             System.out.println("SQL State: " + e.getSQLState());
             System.out.println("Vendor Error: " + e.getErrorCode());
+            Alert appAlert = new Alert(Alert.AlertType.ERROR);
+            appAlert.setTitle("Deletion Error");
+            appAlert.setHeaderText("Unable to delete the customer.");
+            appAlert.setContentText("The customer cannot be deleted if they are associated with an appointment.");
+            appAlert.showAndWait();
         }
     }
 
