@@ -164,6 +164,25 @@ public class AppointmentController implements Initializable {
                 confirmDel.close();
             }
         }
+        else if(tpAll.isSelected()) {
+            if(confirmDel.getResult() == ButtonType.OK) {
+                try {
+                    Appointment currApp = appTableAll.getSelectionModel().getSelectedItem();
+                    AppointmentDB.deleteAppointment(currApp);
+                    getAppointments();
+                }
+                catch (NullPointerException e) {
+                    Alert appAlert = new Alert(Alert.AlertType.ERROR);
+                    appAlert.setTitle("Deletion Error");
+                    appAlert.setHeaderText("Unable to delete the appointment.");
+                    appAlert.setContentText("There was no appointment selected to delete.");
+                    appAlert.showAndWait();
+                }
+            }
+            else {
+                confirmDel.close();
+            }
+        }
     }
 
     @FXML
@@ -194,6 +213,30 @@ public class AppointmentController implements Initializable {
         }
         else if(tpMonthly.isSelected()){
             currAppointment = appTableMonth.getSelectionModel().getSelectedItem();
+            if(currAppointment != null) {
+                try {
+                    FXMLLoader loader = new FXMLLoader(AppointmentModController.class.getResource("AppointmentMod.fxml"));
+                    Parent root = loader.load();
+                    Scene scene = new Scene(root);
+                    Stage stage = new Stage();
+                    stage.setScene(scene);
+                    stage.show();
+                    Stage currStage = (Stage) appBtnMod.getScene().getWindow();
+                    currStage.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            else {
+                Alert appAlert = new Alert(Alert.AlertType.ERROR);
+                appAlert.setTitle("Modification Error");
+                appAlert.setHeaderText("Unable to modify the appointment.");
+                appAlert.setContentText("There was no appointment selected to modify.");
+                appAlert.showAndWait();
+            }
+        }
+        else if(tpAll.isSelected()){
+            currAppointment = appTableAll.getSelectionModel().getSelectedItem();
             if(currAppointment != null) {
                 try {
                     FXMLLoader loader = new FXMLLoader(AppointmentModController.class.getResource("AppointmentMod.fxml"));
